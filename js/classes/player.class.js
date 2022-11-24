@@ -18,6 +18,9 @@ export class Player extends GameObject {
         if (input.w) {this.velocity.y = -this.speed}
         if (input.s) {this.velocity.y = this.speed}
 
+        if (input.a && input.d) {this.velocity.x = 0}
+        if (input.w && input.s) {this.velocity.y = 0}
+
         if (!input.a && !input.d) {this.velocity.x = 0}
         if (!input.w && !input.s) {this.velocity.y = 0}
     }
@@ -31,12 +34,12 @@ export class Player extends GameObject {
         const maxX = window.width - this.sprite.width;
         const maxY = window.height - this.sprite.height;
 
-
         if (this.position.x < 0) {this.position.x = 0}
         if (this.position.y < 0) {this.position.y = 0}
         if (this.position.x > maxX) {this.position.x = maxX}
         if (this.position.y > maxY) {this.position.y = maxY}
     }
+
 
     update() {
         this.getInput();
