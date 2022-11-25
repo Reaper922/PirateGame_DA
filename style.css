@@ -17,3 +17,9 @@ body {
     background: white;
     border: 2px solid black;
 }
+
+#cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
