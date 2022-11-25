@@ -1,3 +1,4 @@
+import { FrameCounter } from './frame-counter.class.js';
 import { Scene } from './scene.class.js';
 import { window } from './settings.js';
 
@@ -5,7 +6,8 @@ export class Game {
     constructor() {
         this.canvas = document.getElementById('canvas');
         this.ctx = canvas.getContext('2d');
-        this.scene = new Scene(this.ctx);
+        this.frameCounter = new FrameCounter();
+        this.scene = new Scene(this.ctx, this.frameCounter);
 
         this.setCanvasResolution(window);
     }
@@ -20,7 +22,7 @@ export class Game {
     }
 
     clearCanvas() {
-        this.ctx.fillStyle = 'white';
+        this.ctx.fillStyle = 'lightblue';
         this.ctx.fillRect(0, 0, window.width, window.height);
     }
 
@@ -36,6 +38,7 @@ export class Game {
         this.clearCanvas();
         this.update();
         this.render();
+        this.frameCounter.increaseCurrentFrame();
         requestAnimationFrame(this.run.bind(this));
     }
 }
