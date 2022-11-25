@@ -3,12 +3,12 @@ import { Sprite } from "./sprite.class.js";
 import { layerData, terrainData } from './settings.js';
 
 export class Scene {
-    constructor(ctx, level = 1) {
+    constructor(ctx, frameCounter, level = 1) {
         this.ctx = ctx;
         this.currentLevel = level;
         this.levelData = {}
         this.layers = layerData;
-        this.player = new Player(ctx);
+        this.player = new Player(ctx, frameCounter);
         // this.enemies = [];
         // this.collectables = [];
         this.loadLayerData();
