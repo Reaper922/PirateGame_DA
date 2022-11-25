@@ -9,13 +9,12 @@ function init() {
 addEventListener('mousemove', (event) => {
     const cursor = document.getElementById('cursor');
 
-    cursor.style.position = 'fixed';
     cursor.style.top = `${event.y.toFixed().toString()}px`;
     cursor.style.left = `${event.x.toFixed().toString()}px`;
 })
 
 
-addEventListener('contextmenu', (event) => event.preventDefault())
+// addEventListener('contextmenu', (event) => event.preventDefault())
 
 
 init();
