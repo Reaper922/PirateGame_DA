@@ -3,6 +3,7 @@ export const window = {
     height: 640
 }
 
+export const gravity = 0.4;
 export const playerSpeed = 5;
 
 export const layerData = {
