@@ -1,6 +1,6 @@
 import { Player } from "./player.class.js";
 import { Sprite } from "./sprite.class.js";
-import { layerData, terrainData } from './settings.js';
+import { layerData } from './settings.js';
 
 export class Scene {
     constructor(ctx, frameCounter, level = 1) {
@@ -8,7 +8,7 @@ export class Scene {
         this.currentLevel = level;
         this.levelData = {}
         this.layers = layerData;
-        this.player = new Player(ctx, frameCounter);
+        this.player = new Player(ctx, frameCounter, 50, 300, 44, 56);
         // this.enemies = [];
         // this.collectables = [];
         this.loadLayerData();
@@ -50,7 +50,7 @@ export class Scene {
                 let col = i % levelWidth;
 
                 if (currentLayer.data[i] != 0) {
-                    let id = terrainData.spritesIds[currentLayer.data[i]];
+                    let id = currentLayer.data[i] + this.layers.terrain.spriteOffset;
                     this.ctx.drawImage(currentLayer.sprites[id], col * 64, row * 64);
                 }
         
