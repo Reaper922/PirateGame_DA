@@ -7,6 +7,7 @@ export const gravity = 0.4;
 
 export const playerData = {
     speed: 5,
+    jumpVelocity: 10,
     animations: {
         idle_left: {
             path: '\assets\sprites\player\idle_left',
