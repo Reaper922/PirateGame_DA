@@ -51,7 +51,7 @@ export const layerData = {
         data: [],
         sprites: [],
         numSprites: 3,
-        spriteOffset: 0
+        spriteOffset: -5
     },
     background: {
         id: 1,
@@ -59,7 +59,7 @@ export const layerData = {
         data: [],
         sprites: [],
         numSprites: 16,
-        spriteOffset: 0
+        spriteOffset: -27
     },
     terrain: {
         id: 2,
@@ -75,6 +75,6 @@ export const layerData = {
         data: [],
         sprites: [],
         numSprites: 16,
-        spriteOffset: 0
+        spriteOffset: -8
     }
 }
