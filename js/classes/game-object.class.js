@@ -2,8 +2,7 @@ import { gravity } from "./settings.js";
 import { Sprite } from "./sprite.class.js";
 
 export class GameObject {
-    constructor(frameCounter, path) {
-        this.frameCounter = frameCounter;
+    constructor(path) {
         this.sprite = new Sprite(path).image;
         this.width = 0;
         this.height = 0;
