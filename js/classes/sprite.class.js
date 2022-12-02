@@ -1,4 +1,3 @@
-
 export class Sprite {
     constructor(path) {
         this.image = new Image();
