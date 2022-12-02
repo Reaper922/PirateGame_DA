@@ -6,39 +6,41 @@ export const window = {
 export const gravity = 0.4;
 
 export const playerData = {
-    speed: 5,
-    jumpVelocity: 10,
+    width: 44,
+    height: 56,
+    speed: 4,
+    jumpVelocity: 9,
     animations: {
         idle_left: {
-            path: '\assets\sprites\player\idle_left',
+            path: '/assets/sprites/player/idle_left',
             numSprites: 5
         },
         idle_right: {
-            path: '\assets\sprites\player\idle_right',
+            path: '/assets/sprites/player/idle_right',
             numSprites: 5
         },
         run_left: {
-            path: '\assets\sprites\player\run_left',
+            path: '/assets/sprites/player/run_left',
             numSprites: 6
         },
         run_right: {
-            path: '\assets\sprites\player\run_right',
+            path: '/assets/sprites/player/run_right',
             numSprites: 6
         },
         jump_left: {
-            path: '\assets\sprites\player\jump_left',
+            path: '/assets/sprites/player/jump_left',
             numSprites: 1
         },
         jump_right: {
-            path: '\assets\sprites\player\jump_right',
+            path: '/assets/sprites/player/jump_right',
             numSprites: 1
         },
         fall_left: {
-            path: '\assets\sprites\player\fall_left',
+            path: '/assets/sprites/player/fall_left',
             numSprites: 1
         },
         fall_right: {
-            path: '\assets\sprites\player\fall_right',
+            path: '/assets/sprites/player/fall_right',
             numSprites: 1
         },
     }
