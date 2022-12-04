@@ -43,6 +43,10 @@ export const playerData = {
             path: '/assets/sprites/player/fall_right',
             numSprites: 1
         },
+        attack_right: {
+            path: '/assets/sprites/player/attack_right',
+            numSprites: 3
+        }
     }
 }
 
