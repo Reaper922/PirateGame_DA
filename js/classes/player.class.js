@@ -14,16 +14,17 @@ export class Player extends GameObject {
         this.height = playerData.height;
         this.speed = playerData.speed;
         this.jumpVelocity = playerData.jumpVelocity;
-        this.animations = []
+        this.animations = [];
         this.currentAnimation = 'idle_right';
         this.animationFrame = 0;
-        this.staggerFrames = 10;
+        this.staggerFrames = 5;
         this.isLastInputRight = true;
-        this.canJump = true;
+        this.canJump = false;
+        this.isAttacking = false;
+        this.attackCooldown = false;
         this.isStatic = false;
 
         this.loadAnimations();
-        console.log(this.animations.idle_left)
     }
 
     loadAnimations() {
@@ -39,22 +40,25 @@ export class Player extends GameObject {
     }
 
     setAnimation() {
-        const direction = this.isLastInputRight ? 'right' : 'left'; 
+        const direction = this.isLastInputRight ? 'right' : 'left';
+
         if (this.velocity.x == 0 && this.velocity.y == 0) {this.currentAnimation = `idle_${direction}`}
         if (this.velocity.x > 0 && this.velocity.y == 0) {this.currentAnimation = `run_right`}
         if (this.velocity.x < 0 && this.velocity.y == 0) {this.currentAnimation = `run_left`}
         if (this.velocity.y < 0) {this.currentAnimation = `jump_${direction}`}
         if (this.velocity.y > 0) {this.currentAnimation = `fall_${direction}`}
+        if (this.isAttacking) {this.currentAnimation = `attack_${direction}`}
+        if (this.isAttacking && this.animationFrame === 3) {this.isAttacking = false}
     }
 
     playAnimation(name) {
         const animationArr = this.animations[name];
         const currentFrame = globalThis.frameCounter;
         const spriteCorrecionX = 28;
-        const spriteCorrecionY = 7
+        const spriteCorrecionY = 7;
 
         if ((currentFrame % this.staggerFrames) == 0) {this.animationFrame++}
-        this.ctx.drawImage(animationArr[this.animationFrame % animationArr.length], this.position.x - spriteCorrecionX, this.position.y - spriteCorrecionY)
+        this.ctx.drawImage(animationArr[this.animationFrame % animationArr.length], this.position.x - spriteCorrecionX, this.position.y - spriteCorrecionY);
     }
 
     getInput() {
@@ -68,14 +72,26 @@ export class Player extends GameObject {
         
         // Jump
         if (input.w) {this.jump()}
+
+        // Attack
+        if (input.space) {this.attack()}
     }
 
-    jump() {
+    jump() { 
         if (this.canJump) {
             this.velocity.y = 0;
             this.velocity.y -= this.jumpVelocity;
             this.canJump = false;
         };
+    }
+
+    attack() {
+        if (!this.isAttacking && !this.attackCooldown) {
+            this.isAttacking = true;
+            this.attackCooldown = true;
+            this.animationFrame = 0;
+            setTimeout(() => {this.attackCooldown = false}, 500)
+        }
     }
 
     constraint() {
