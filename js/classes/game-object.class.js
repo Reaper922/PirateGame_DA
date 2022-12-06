@@ -1,12 +1,17 @@
 import { gravity } from "./settings.js";
+import { layerData } from './settings.js';
 import { Sprite } from "./sprite.class.js";
 
 export class GameObject {
-    constructor(path) {
-        this.sprite = new Sprite(path).image;
+    constructor(ctx, levelData) {
+        this.ctx = ctx;
+        this.layerData = layerData;
+        this.levelData = levelData;
+        this.sprites = [];
+        this.isStatic = true;
         this.width = 0;
         this.height = 0;
-        this.isStatic = true;
+
         this.position = {
             x: 0,
             y: 0
@@ -15,6 +20,29 @@ export class GameObject {
         this.velocity = {
             x: 0,
             y: 0
+        }
+    }
+
+    createLayer(layer) {
+        const dataArray = this.layerData[layer].data;
+        const levelWidth = this.levelData.width;
+        const levelHeigth = this.levelData.height;
+        const tileWidth = this.levelData.tilewidth;
+        const tileHeight = this.levelData.tileheight;
+        let row = 0;
+
+        for (let i = 0; i < dataArray.length; i++) {
+            let col = i % levelWidth;
+
+            if (dataArray[i] != 0) {
+                let id = dataArray[i] + this.layerData[layer].spriteOffset;
+                let terrain = new Sprite(`${this.layerData[layer].path}/${id}.png`)
+                terrain.position.x = col * tileWidth;
+                terrain.position.y = row * tileHeight;
+                this.sprites.push(terrain)
+            }
+
+            if (col === (levelWidth - 1)) {row += 1}
         }
     }
 
@@ -29,52 +57,52 @@ export class GameObject {
         this.position.y += Number(this.velocity.y.toFixed(1));
     }
 
-    checkCollisions(direction, arr) {
-        for (let i = 0; i < arr.length; i++) {
-            const tile = arr[i];
+    checkCollisions(direction, spritesArray) {
+        for (let i = 0; i < spritesArray.length; i++) {
+            const sprite = spritesArray[i];
             const collision = {
-                top: this.position.y < tile.position.y + tile.height,
-                bottom: this.position.y + this.height > tile.position.y,
-                left: this.position.x < tile.position.x + tile.width,
-                right: this.position.x + this.width > tile.position.x
+                top: this.position.y < sprite.position.y + sprite.image.height,
+                bottom: this.position.y + this.height > sprite.position.y,
+                left: this.position.x < sprite.position.x + sprite.image.width,
+                right: this.position.x + this.width > sprite.position.x
             }
-
+            
             if (collision.top && collision.bottom && collision.left && collision.right) {
                 switch (direction) {
                     case 'horizontal':
-                        this.handleHorizontalCollision(tile);
+                        this.handleHorizontalCollision(sprite);
                         break;
                     case 'vertical':
-                        this.handleVerticalCollision(tile);
+                        this.handleVerticalCollision(sprite);
                         break;
                 }
             }
         }
     }
 
-    handleHorizontalCollision(tile) {
+    handleHorizontalCollision(sprite) {
         // Right Collision
         if (this.velocity.x > 0) {
-            this.position.x = tile.position.x - this.width;
+            this.position.x = sprite.position.x - this.width;
         }
 
         // Left Collision
         if (this.velocity.x < 0) {
-            this.position.x = tile.position.x + tile.width;
+            this.position.x = sprite.position.x + sprite.image.width;
         }
     }
 
-    handleVerticalCollision(tile) {
+    handleVerticalCollision(sprite) {
         // Bottom Collision
         if (this.velocity.y > 0) {
-            this.position.y = tile.position.y - this.height;
+            this.position.y = sprite.position.y - this.height;
             this.canJump = true;
             this.velocity.y = 0;
         }
 
         // Top Collision
         if (this.velocity.y < 0) {
-            this.position.y = tile.position.y + tile.height;
+            this.position.y = sprite.position.y + sprite.image.height;
             this.velocity.y = 0;
         }
     }
@@ -84,7 +112,9 @@ export class GameObject {
     }
 
     render() {
-        this.ctx.drawImage(this.sprite, this.position.x, this.position.y)
+        for (let i = 0; i < this.sprites.length; i++) {
+            this.ctx.drawImage(this.sprites[i].image, this.sprites[i].position.x, this.sprites[i].position.y);
+        }
     }
 
     // Debuging
