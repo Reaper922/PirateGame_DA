@@ -92,11 +92,18 @@ export const layerData = {
         data: [],
         numSprites: 16,
         spriteOffset: -8
+    },
+    water: {
+        id: 4,
+        path: '/assets/sprites/terrain/water',
+        data: [],
+        numSprites: 4,
+        spriteOffset: 0
     }
 }
 
 export const treeBgData = {
-    animationSpeed: 5,
+    animationSpeed: 30,
     animations: {
         palmBig: {
             path: '/assets/sprites/terrain/palm/bg',
@@ -122,7 +129,7 @@ export const treeBgData = {
 }
 
 export const treeFgData = {
-    animationSpeed: 5,
+    animationSpeed: 30,
     animations: {
         palmBig: {
             path: '/assets/sprites/terrain/palm/fg',
@@ -143,6 +150,22 @@ export const treeFgData = {
             path: '/assets/sprites/terrain/palm/fg',
             numSprites: 4,
             start: 12
+        }
+    }
+}
+
+export const waterData = {
+    animationSpeed: 60,
+    animations: {
+        water: {
+            path: '/assets/sprites/terrain/water',
+            numSprites: 1,
+            start: 0
+        },
+        water1: {
+            path: '/assets/sprites/terrain/water',
+            numSprites: 3,
+            start: 1
         }
     }
 }
