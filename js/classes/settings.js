@@ -3,6 +3,11 @@ export const window = {
     height: 640
 }
 
+export const tileData = {
+    width: 64,
+    height: 64
+}
+
 export const gravity = 0.4;
 
 export const playerData = {
@@ -87,5 +92,57 @@ export const layerData = {
         data: [],
         numSprites: 16,
         spriteOffset: -8
+    }
+}
+
+export const treeBgData = {
+    animationSpeed: 5,
+    animations: {
+        palmBig: {
+            path: '/assets/sprites/terrain/palm/bg',
+            numSprites: 4,
+            start: 0
+        },
+        palmSmall: {
+            path: '/assets/sprites/terrain/palm/bg',
+            numSprites: 4,
+            start: 4
+        },
+        palmLeft: {
+            path: '/assets/sprites/terrain/palm/bg',
+            numSprites: 4,
+            start: 8
+        },
+        palmRight: {
+            path: '/assets/sprites/terrain/palm/bg',
+            numSprites: 4,
+            start: 12
+        }
+    }
+}
+
+export const treeFgData = {
+    animationSpeed: 5,
+    animations: {
+        palmBig: {
+            path: '/assets/sprites/terrain/palm/fg',
+            numSprites: 4,
+            start: 0
+        },
+        palmSmall: {
+            path: '/assets/sprites/terrain/palm/fg',
+            numSprites: 4,
+            start: 4
+        },
+        palmLeft: {
+            path: '/assets/sprites/terrain/palm/fg',
+            numSprites: 4,
+            start: 8
+        },
+        palmRight: {
+            path: '/assets/sprites/terrain/palm/fg',
+            numSprites: 4,
+            start: 12
+        }
     }
 }
