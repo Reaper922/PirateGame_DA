@@ -39,6 +39,7 @@ export class Scene {
     update() {
         let terrainSprites = [];
         if (this.terrain && terrainSprites) {terrainSprites = this.terrain.sprites}
+        if (this.sky) {this.sky.update()}
         if (this.player) {this.player.update(terrainSprites)}
     }
 
