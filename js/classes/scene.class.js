@@ -16,7 +16,7 @@ export class Scene {
     }
 
     async initObjects() {
-        await this.loadLayerData();
+        await this.loadLevelData();
         this.sky = new Sky(this.ctx, this.levelData);
         this.background = new TreesBG(this.ctx, this.levelData);
         this.terrain = new Terrain(this.ctx, this.levelData);
@@ -26,7 +26,7 @@ export class Scene {
         // this.collectables = [];
     }
 
-    async loadLayerData() {
+    async loadLevelData() {
         const levelPath = `../../level/level${this.currentLevel}.json`;
         this.levelData = await fetch(levelPath).then((resp) => resp.json());
             
