@@ -4,6 +4,7 @@ import { Sky } from "./sky.class.js";
 import { Terrain } from "./terrain.class.js";
 import { TreesBG } from "./trees-bg.class.js";
 import { TreesFG } from "./trees-fg.class.js";
+import { Water } from "./water.class.js";
 
 export class Scene {
     constructor(ctx, level = 1) {
@@ -20,8 +21,9 @@ export class Scene {
         this.sky = new Sky(this.ctx, this.levelData);
         this.background = new TreesBG(this.ctx, this.levelData);
         this.terrain = new Terrain(this.ctx, this.levelData);
-        this.foreground = new TreesFG(this.ctx, this.levelData);
         this.player = new Player(this.ctx, {x: 50, y: 200});
+        this.foreground = new TreesFG(this.ctx, this.levelData);
+        this.water = new Water(this.ctx, this.levelData);
         // this.enemies = [];
         // this.collectables = [];
     }
@@ -49,5 +51,6 @@ export class Scene {
         if (this.terrain) {this.terrain.render()}
         if (this.player) {this.player.render()}
         if (this.foreground) {this.foreground.render()}
+        if (this.water) {this.water.render()}
     }
 }
