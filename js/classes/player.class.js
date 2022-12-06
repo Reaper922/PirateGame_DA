@@ -54,11 +54,11 @@ export class Player extends GameObject {
     playAnimation(name) {
         const animationArr = this.animations[name];
         const currentFrame = globalThis.frameCounter;
-        const spriteCorrecionX = playerData.spriteCorrection.x;
-        const spriteCorrecionY = playerData.spriteCorrection.y;
+        const spriteCorrectionX = playerData.spriteCorrection.x;
+        const spriteCorrectionY = playerData.spriteCorrection.y;
 
         if ((currentFrame % this.staggerFrames) == 0) {this.animationFrame++}
-        this.ctx.drawImage(animationArr[this.animationFrame % animationArr.length], this.position.x - spriteCorrecionX, this.position.y - spriteCorrecionY);
+        this.ctx.drawImage(animationArr[this.animationFrame % animationArr.length], this.position.x - spriteCorrectionX, this.position.y - spriteCorrectionY);
     }
 
     getInput() {
