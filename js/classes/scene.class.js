@@ -1,98 +1,52 @@
 import { Player } from "./player.class.js";
-import { Sprite } from "./sprite.class.js";
 import { layerData } from './settings.js';
+import { Sky } from "./sky.class.js";
 import { Terrain } from "./terrain.class.js";
+import { TreesBG } from "./trees-bg.class.js";
+import { TreesFG } from "./trees-fg.class.js";
 
 export class Scene {
     constructor(ctx, level = 1) {
         this.ctx = ctx;
         this.currentLevel = level;
         this.levelData = {}
-        this.layers = layerData;
-        this.player = new Player(ctx, 50, 300);
-        this.terrain = [];
-        // this.enemies = [];
-        // this.collectables = [];
-        this.init();
+        this.layerData = layerData;
+
+        this.initObjects();
     }
 
-    async init() {
+    async initObjects() {
         await this.loadLayerData();
-        this.loadLayerSprites();
-        this.createTerrain();
+        this.sky = new Sky(this.ctx, this.levelData);
+        this.background = new TreesBG(this.ctx, this.levelData);
+        this.terrain = new Terrain(this.ctx, this.levelData);
+        this.foreground = new TreesFG(this.ctx, this.levelData);
+        this.player = new Player(this.ctx, {x: 50, y: 200});
+        // this.enemies = [];
+        // this.collectables = [];
     }
 
     async loadLayerData() {
         const levelPath = `../../level/level${this.currentLevel}.json`;
         this.levelData = await fetch(levelPath).then((resp) => resp.json());
             
-        for (const layer in this.layers) {
-            const currentLayer = this.layers[layer];
+        for (const layer in this.layerData) {
+            const currentLayer = this.layerData[layer];
             currentLayer.data = this.levelData.layers[currentLayer.id].data;
         }
     }
 
-    loadLayerSprites() { // Mit implementierung von Animationen in die jeweilige Klasse verlagern -> Player/Collectables/Foreground
-        for (const layer in this.layers) {
-            const currentLayer = this.layers[layer];
-
-            for (let i = 0; i < currentLayer.numSprites; i++) {
-                const sprite = new Sprite(`${currentLayer.path}/${i}.png`).image;
-                currentLayer.sprites.push(sprite);
-            }
-        }
-    }
-
-    createTerrain() {
-        const terrainData = this.levelData.layers[2].data;
-        const levelWidth = this.levelData.width;
-        const levelHeigth = this.levelData.height;
-        const tileWidth = this.levelData.tileWidth;
-        const tileHeight = this.levelData.tileHeight;
-        let row = 0;
-
-        for (let i = 0; i < terrainData.length; i++) {
-            let col = i % levelWidth;
-
-            if (terrainData[i] != 0) {
-                this.terrain.push(new Terrain(this.ctx, col * 64, row * 64, 64, 64))
-            }
-
-            if (col === (15)) {row += 1}
-        }
-    }
-
-    renderLayers() { // Umschreiben, sodass die Renderfunktion der Objekte aufgerufen wird.
-        const levelWidth = this.levelData.width;
-        const levelHeigth = this.levelData.height;
-        const tileWidth = this.levelData.tileWidth;
-        const tileHeight = this.levelData.tileHeight;
-        
-        for (const layer in this.layers) {
-            const currentLayer = this.layers[layer];
-            let row = 0;
-            if (layer === 'foreground' || layer === 'background') {row -= 1}
-
-            for (let i = 0; i < currentLayer.data.length; i++) {
-                let col = i % levelWidth;
-
-                if (currentLayer.data[i] != 0) {
-                    // console.log(layer, currentLayer.data[i])
-                    let id = currentLayer.data[i] + currentLayer.spriteOffset;
-                    this.ctx.drawImage(currentLayer.sprites[id], col * 64, row * 64);
-                }
-        
-                if (col === (15)) {row += 1}
-            }
-        }
-    }
-
     update() {
-        this.player.update(this.terrain);
+        let terrainSprites = [];
+        if (this.terrain && terrainSprites) {terrainSprites = this.terrain.sprites}
+        if (this.player) {this.player.update(terrainSprites)}
     }
 
     render() {
-        this.renderLayers();
-        this.player.render();
+        if (this.sky) {this.sky.render()}
+        if (this.background) {this.background.render()}
+        if (this.terrain) {this.terrain.render()}
+        if (this.player) {this.player.render()}
+        if (this.foreground) {this.foreground.render()}
     }
 }
