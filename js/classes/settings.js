@@ -10,6 +10,11 @@ export const playerData = {
     height: 56,
     speed: 4,
     jumpVelocity: 9,
+    spriteCorrection: {
+        x: 28,
+        y: 7
+    },
+    animationSpeed: 5,
     animations: {
         idle_left: {
             path: '/assets/sprites/player/idle_left',
@@ -59,7 +64,6 @@ export const layerData = {
         id: 0,
         path: '/assets/sprites/terrain/clouds',
         data: [],
-        sprites: [],
         numSprites: 3,
         spriteOffset: -5
     },
@@ -67,7 +71,6 @@ export const layerData = {
         id: 1,
         path: '/assets/sprites/terrain/palm/bg',
         data: [],
-        sprites: [],
         numSprites: 16,
         spriteOffset: -27
     },
@@ -75,7 +78,6 @@ export const layerData = {
         id: 2,
         path: '/assets/sprites/terrain/land',
         data: [],
-        sprites: [],
         numSprites: 53,
         spriteOffset: -40,
     },
@@ -83,7 +85,6 @@ export const layerData = {
         id: 3,
         path: '/assets/sprites/terrain/palm/fg',
         data: [],
-        sprites: [],
         numSprites: 16,
         spriteOffset: -8
     }
