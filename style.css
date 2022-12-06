@@ -29,11 +29,13 @@ body {
 @media only screen and (max-width: 1080px) {
     #canvas {
         width: 95%;
+        height: max-content;
     }
 }
 
 @media only screen and (max-height: 480px) {
     #canvas {
         height: 95%;
+        width: max-content;
     }
 }
