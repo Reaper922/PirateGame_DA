@@ -4,12 +4,12 @@ import { playerData, window } from './settings.js';
 import { Sprite } from "./sprite.class.js";
 
 export class Player extends GameObject {
-    constructor(ctx, positionX = 0, positionY = 0) {
-        super('/assets/sprites/player/idle_right/1.png');
+    constructor(ctx, position) {
+        super();
         this.ctx = ctx;
         this.inputController = new InputController();
-        this.position.x = positionX;
-        this.position.y = positionY;
+        this.position.x = position.x;
+        this.position.y = position.y;
         this.width = playerData.width;
         this.height = playerData.height;
         this.speed = playerData.speed;
@@ -17,7 +17,7 @@ export class Player extends GameObject {
         this.animations = [];
         this.currentAnimation = 'idle_right';
         this.animationFrame = 0;
-        this.staggerFrames = 5;
+        this.staggerFrames = playerData.animationSpeed;
         this.isLastInputRight = true;
         this.canJump = false;
         this.isAttacking = false;
@@ -54,8 +54,8 @@ export class Player extends GameObject {
     playAnimation(name) {
         const animationArr = this.animations[name];
         const currentFrame = globalThis.frameCounter;
-        const spriteCorrecionX = 28;
-        const spriteCorrecionY = 7;
+        const spriteCorrecionX = playerData.spriteCorrection.x;
+        const spriteCorrecionY = playerData.spriteCorrection.y;
 
         if ((currentFrame % this.staggerFrames) == 0) {this.animationFrame++}
         this.ctx.drawImage(animationArr[this.animationFrame % animationArr.length], this.position.x - spriteCorrecionX, this.position.y - spriteCorrecionY);
@@ -78,11 +78,11 @@ export class Player extends GameObject {
     }
 
     jump() { 
-        if (this.canJump) {
+        if (this.canJump && this.velocity.y <= 0) {
             this.velocity.y = 0;
             this.velocity.y -= this.jumpVelocity;
             this.canJump = false;
-        };
+        }
     }
 
     attack() {
@@ -90,7 +90,7 @@ export class Player extends GameObject {
             this.isAttacking = true;
             this.attackCooldown = true;
             this.animationFrame = 0;
-            setTimeout(() => {this.attackCooldown = false}, 500)
+            setTimeout(() => {this.attackCooldown = false}, 500);
         }
     }
 
@@ -101,23 +101,20 @@ export class Player extends GameObject {
         if (this.position.x < 0) {this.position.x = 0}
         if (this.position.y < 0) {this.position.y = 0}
         if (this.position.x > maxX) {this.position.x = maxX}
-        if (this.position.y > maxY) {this.position.y = maxY; this.canJump = true;} // canJump entfernen
+        if (this.position.y > maxY) {this.position.y = maxY}
     }
 
-    update(terrain) {
+    update(terrainSprites) {
         this.getInput();
         this.move();
-        this.checkCollisions('horizontal', terrain);
+        this.checkCollisions('horizontal', terrainSprites);
         super.addGravity();
-        this.checkCollisions('vertical', terrain)
+        this.checkCollisions('vertical', terrainSprites);
         this.constraint();
     }
 
     render() {
         this.setAnimation();
         this.playAnimation(this.currentAnimation);
-
-        // Debug
-        // this.drawRect();
     }
 }
