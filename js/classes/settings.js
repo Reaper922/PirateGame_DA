@@ -3,12 +3,55 @@ export const window = {
     height: 640
 }
 
-export const tileData = {
+export const tileSize = {
     width: 64,
     height: 64
 }
 
+export const levelSize = {
+    width: 16,
+    height: 10
+}
+
 export const gravity = 0.4;
+
+export const layerData = {
+    sky: {
+        id: 0,
+        path: './assets/sprites/terrain/clouds',
+        data: [],
+        numSprites: 3,
+        spriteOffset: -5
+    },
+    background: {
+        id: 1,
+        path: './assets/sprites/terrain/palm/bg',
+        data: [],
+        numSprites: 16,
+        spriteOffset: -27
+    },
+    terrain: {
+        id: 2,
+        path: './assets/sprites/terrain/land',
+        data: [],
+        numSprites: 53,
+        spriteOffset: -40,
+    },
+    foreground: {
+        id: 3,
+        path: './assets/sprites/terrain/palm/fg',
+        data: [],
+        numSprites: 16,
+        spriteOffset: -8
+    },
+    water: {
+        id: 4,
+        path: './assets/sprites/terrain/water',
+        data: [],
+        numSprites: 4,
+        spriteOffset: 0
+    }
+}
 
 export const playerData = {
     width: 44,
@@ -61,44 +104,6 @@ export const playerData = {
             path: './assets/sprites/player/attack_left',
             numSprites: 3
         }
-    }
-}
-
-export const layerData = {
-    sky: {
-        id: 0,
-        path: './assets/sprites/terrain/clouds',
-        data: [],
-        numSprites: 3,
-        spriteOffset: -5
-    },
-    background: {
-        id: 1,
-        path: './assets/sprites/terrain/palm/bg',
-        data: [],
-        numSprites: 16,
-        spriteOffset: -27
-    },
-    terrain: {
-        id: 2,
-        path: './assets/sprites/terrain/land',
-        data: [],
-        numSprites: 53,
-        spriteOffset: -40,
-    },
-    foreground: {
-        id: 3,
-        path: './assets/sprites/terrain/palm/fg',
-        data: [],
-        numSprites: 16,
-        spriteOffset: -8
-    },
-    water: {
-        id: 4,
-        path: './assets/sprites/terrain/water',
-        data: [],
-        numSprites: 4,
-        spriteOffset: 0
     }
 }
 
