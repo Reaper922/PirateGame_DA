@@ -1,3 +1,6 @@
+/**
+ * Sprite class that represents an image.
+ */
 export class Sprite {
     constructor(path) {
         this.image = new Image();
@@ -8,6 +11,10 @@ export class Sprite {
         }
     }
 
+    /**
+     * Sets the sprite image.
+     * @param {String} path Path of the sprite.
+     */
     setSprite(path) {
         this.image.src = path;
     }
