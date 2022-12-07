@@ -6,51 +6,88 @@ import { TreesBG } from "./trees-bg.class.js";
 import { TreesFG } from "./trees-fg.class.js";
 import { Water } from "./water.class.js";
 
+/**
+ * Scene class that manages the elements (player, enemies, collectables...) and layers (terrain, sky...) of the current level.
+ */
 export class Scene {
     constructor(ctx, level = 1) {
         this.ctx = ctx;
         this.currentLevel = level;
         this.levelData = {}
         this.layerData = layerData;
+        this.collisionGroup = {
+            terrainSprites: [],
+            waterSprites: []
+        }
 
         this.initObjects();
     }
 
+    /**
+     * Method that initializes level elements and layers.
+     */
     async initObjects() {
         await this.loadLevelData();
-        this.sky = new Sky(this.ctx, this.levelData);
-        this.background = new TreesBG(this.ctx, this.levelData);
-        this.terrain = new Terrain(this.ctx, this.levelData);
-        this.player = new Player(this.ctx, {x: 50, y: 200});
-        this.foreground = new TreesFG(this.ctx, this.levelData);
-        this.water = new Water(this.ctx, this.levelData);
+        this.transferLayerData();
+        this.sky = new Sky(this.ctx, this.layerData);
+        this.background = new TreesBG(this.ctx, this.layerData);
+        this.terrain = new Terrain(this.ctx, this.layerData);
+        this.player = new Player(this.ctx, { x: 50, y: 200 }); // Player Position in Settings?
+        this.foreground = new TreesFG(this.ctx, this.layerData);
+        this.water = new Water(this.ctx, this.layerData);
         // this.enemies = [];
         // this.collectables = [];
+        this.setCollisionGroup();
     }
 
+    /**
+     * Loads the level data from the json file of the current level.
+     */
     async loadLevelData() {
         const levelPath = `./level/level${this.currentLevel}.json`;
         this.levelData = await fetch(levelPath).then((resp) => resp.json());
-            
+    }
+
+    /**
+     * Transfers the data of the layer from levelData to layerData.
+     */
+    transferLayerData() {
         for (const layer in this.layerData) {
             const currentLayer = this.layerData[layer];
             currentLayer.data = this.levelData.layers[currentLayer.id].data;
         }
     }
 
-    update() {
-        let terrainSprites = [];
-        if (this.terrain && terrainSprites) {terrainSprites = this.terrain.sprites}
-        if (this.sky) {this.sky.update()}
-        if (this.player) {this.player.update(terrainSprites)}
+    /**
+     * Sets the collisiongroup for elements and layers.
+     */
+    setCollisionGroup() {
+        if (this.terrain && this.collisionGroup.terrainSprites.length == 0) {
+            this.collisionGroup.terrainSprites = this.terrain.sprites;
+        }
+
+        if (this.water && this.collisionGroup.waterSprites.length == 0) {
+            this.collisionGroup.waterSprites = this.water.sprites;
+        }
     }
 
+    /**
+     * Updates the elements and layers of the current scene.
+     */
+    update() {
+        if (this.sky) { this.sky.update() }
+        if (this.player) { this.player.update(this.collisionGroup) }
+    }
+
+    /**
+     * Renders the elements and layers of the current scene.
+     */
     render() {
-        if (this.sky) {this.sky.render()}
-        if (this.background) {this.background.render()}
-        if (this.terrain) {this.terrain.render()}
-        if (this.player) {this.player.render()}
-        if (this.foreground) {this.foreground.render()}
-        if (this.water) {this.water.render()}
+        if (this.sky) { this.sky.render() }
+        if (this.background) { this.background.render() }
+        if (this.terrain) { this.terrain.render() }
+        if (this.player) { this.player.render() }
+        if (this.foreground) { this.foreground.render() }
+        if (this.water) { this.water.render() }
     }
 }
