@@ -29,7 +29,7 @@ export class Scene {
     }
 
     async loadLevelData() {
-        const levelPath = `../../level/level${this.currentLevel}.json`;
+        const levelPath = `./level/level${this.currentLevel}.json`;
         this.levelData = await fetch(levelPath).then((resp) => resp.json());
             
         for (const layer in this.layerData) {
