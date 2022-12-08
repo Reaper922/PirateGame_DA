@@ -1,4 +1,4 @@
-import { GameObject } from "./game-object.class.js";
+import { DynamicObject } from "./dynamic-object.class.js";
 import { InputController } from "./input-controller.class.js";
 import { playerData, window } from './settings.js';
 import { Sprite } from "./sprite.class.js";
@@ -6,7 +6,7 @@ import { Sprite } from "./sprite.class.js";
 /**
  * Class that represents the player.
  */
-export class Player extends GameObject {
+export class Player extends DynamicObject {
     constructor(ctx, layerData, position = { x: 0, y: 0 }) {
         super(ctx, layerData);
         this.ctx = ctx;
@@ -22,7 +22,6 @@ export class Player extends GameObject {
         this.health = playerData.health;
         this.jumpVelocity = playerData.jumpVelocity;
         this.canJump = false;
-        this.isStatic = false;
         this.animations = [];
         this.currentAnimation = 'idle_right';
         this.animationFrame = 0;
@@ -148,6 +147,15 @@ export class Player extends GameObject {
     }
 
     /**
+     * Handles the collision with water and resets the player to the starting position.
+     */
+    waterCollision() {
+        this.position.x = this.startPosition.x;
+        this.position.y = this.startPosition.y;
+        this.health -= 1;
+    }
+
+    /**
      * Constrains the player to the canvas and prevents the player from getting out of bounds.
      */
     constraint() {
@@ -167,19 +175,11 @@ export class Player extends GameObject {
     update(collisionGroup) {
         this.getInput();
         this.move();
-
-        // -----------------------------------------------------------------
-        this.checkCollisions(collisionGroup.terrainSprites, 'horizontal');
+        this.checkCollision(collisionGroup.terrainSprites, 'horizontal');
         super.addGravity();
-        this.checkCollisions(collisionGroup.terrainSprites, 'vertical');
-        if (this.checkCollisions(collisionGroup.waterSprites, 'water')) {
-            this.position.x = this.startPosition.x;
-            this.position.y = this.startPosition.y;
-            this.health -= 1;
-        };
-        if (!this.isAlive()) { }
-        // -----------------------------------------------------------------
-        
+        this.checkCollision(collisionGroup.terrainSprites, 'vertical');
+        this.checkCollision(collisionGroup.waterSprites, 'water', this);
+        if (!this.isAlive()) { } // -----------!!!------------
         this.constraint();
         this.setAnimation();
     }
