@@ -57,6 +57,8 @@ export const playerData = {
     width: 44,
     height: 56,
     speed: 4,
+    health: 3,
+    attackCooldown: 500,
     jumpVelocity: 9,
     spriteCorrection: {
         x: 28,
