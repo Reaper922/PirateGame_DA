@@ -1,6 +1,9 @@
-import { GameObject } from "./game-object.class.js";
+import { Layer } from "./layer.class.js";
 
-export class Terrain extends GameObject {
+/**
+ * Create the terrain layer object.
+ */
+export class Terrain extends Layer {
     constructor(ctx, levelData) {
         super(ctx, levelData);
         this.createLayer('terrain');
