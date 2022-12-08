@@ -32,7 +32,7 @@ export class Scene {
         this.sky = new Sky(this.ctx, this.layerData);
         this.background = new TreesBG(this.ctx, this.layerData);
         this.terrain = new Terrain(this.ctx, this.layerData);
-        this.player = new Player(this.ctx, { x: 50, y: 200 }); // Player Position in Settings?
+        this.player = new Player(this.ctx, this.layerData, { x: 50, y: 200 }); // Player Position in Settings?
         this.foreground = new TreesFG(this.ctx, this.layerData);
         this.water = new Water(this.ctx, this.layerData);
         // this.enemies = [];
