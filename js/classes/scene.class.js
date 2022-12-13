@@ -1,3 +1,4 @@
+import { Collectable } from "./collectable.class.js";
 import { Player } from "./player.class.js";
 import { layerData } from './settings.js';
 import { Sky } from "./sky.class.js";
@@ -17,7 +18,8 @@ export class Scene {
         this.layerData = layerData;
         this.collisionGroup = {
             terrainSprites: [],
-            waterSprites: []
+            waterSprites: [],
+            collectableSprites: []
         }
 
         this.initObjects();
@@ -35,8 +37,8 @@ export class Scene {
         this.player = new Player(this.ctx, this.layerData, { x: 50, y: 200 }); // Player Position in Settings?
         this.foreground = new TreesFG(this.ctx, this.layerData);
         this.water = new Water(this.ctx, this.layerData);
+        this.collectables = new Collectable(this.ctx, this.levelData.layers[5].data);
         // this.enemies = [];
-        // this.collectables = [];
         this.setCollisionGroup();
     }
 
@@ -69,6 +71,10 @@ export class Scene {
         if (this.water && this.collisionGroup.waterSprites.length == 0) {
             this.collisionGroup.waterSprites = this.water.sprites;
         }
+
+        if (this.collectables && this.collisionGroup.collectableSprites.length == 0) {
+            this.collisionGroup.collectableSprites = this.collectables.sprites;
+        }
     }
 
     /**
@@ -86,6 +92,7 @@ export class Scene {
         if (this.sky) { this.sky.render() }
         if (this.background) { this.background.render() }
         if (this.terrain) { this.terrain.render() }
+        if (this.collectables) { this.collectables.render() }
         if (this.player) { this.player.render() }
         if (this.foreground) { this.foreground.render() }
         if (this.water) { this.water.render() }
