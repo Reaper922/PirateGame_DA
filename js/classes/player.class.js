@@ -12,12 +12,12 @@ export class Player extends DynamicObject {
         this.ctx = ctx;
         this.inputController = new InputController();
         this.startPosition = position;
-        this.position = {
+        super.position = {
             x: position.x,
             y: position.y
         }
-        this.width = playerData.width;
-        this.height = playerData.height;
+        super.width = playerData.width;
+        super.height = playerData.height;
         this.speed = playerData.speed;
         this.health = playerData.health;
         this.jumpVelocity = playerData.jumpVelocity;
@@ -29,6 +29,7 @@ export class Player extends DynamicObject {
         this.isLastInputRight = true;
         this.isAttacking = false;
         this.attackCooldown = false;
+        this.coins = 0;
 
         this.loadAnimations();
     }
@@ -156,6 +157,17 @@ export class Player extends DynamicObject {
     }
 
     /**
+     * Handles the collision with collectables. Increases the coin count and removes the collectable from the layer.
+     * @param {Sprite} sprite Sprite object.
+     * @param {Array} spritesArray Array of sprites.
+     */
+    collectableCollision(sprite, spritesArray) {
+        const index = spritesArray.indexOf(sprite);
+        spritesArray.splice(index, 1)
+        this.coins += 1;
+    }
+
+    /**
      * Constrains the player to the canvas and prevents the player from getting out of bounds.
      */
     constraint() {
@@ -178,6 +190,7 @@ export class Player extends DynamicObject {
         this.checkCollision(collisionGroup.terrainSprites, 'horizontal');
         super.addGravity();
         this.checkCollision(collisionGroup.terrainSprites, 'vertical');
+        this.checkCollision(collisionGroup.collectableSprites, 'collectables', this);
         this.checkCollision(collisionGroup.waterSprites, 'water', this);
         if (!this.isAlive()) { } // -----------!!!------------
         this.constraint();
