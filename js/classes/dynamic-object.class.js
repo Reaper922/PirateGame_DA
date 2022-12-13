@@ -8,6 +8,10 @@ export class DynamicObject extends StaticObject {
     constructor(ctx, layerData, position) {
         super(ctx, layerData, position);
         this.isStatic = false;
+        this.velocity = {
+            x: 0,
+            y: 0
+        }
     }
 
     /**
@@ -65,6 +69,10 @@ export class DynamicObject extends StaticObject {
                 break;
             case 'water':
                 this.handleWaterCollision(collisionObject);
+                break;
+            case 'collectables':
+                this.handleCollectableCollision(collisionObject, sprite);
+                break;
         }
     }
 
@@ -109,6 +117,15 @@ export class DynamicObject extends StaticObject {
      */
     handleWaterCollision(collisionObject) {
         collisionObject.waterCollision();
+    }
+
+    /**
+     * Handles the collision with collectables.
+     * @param {Object} collisionObject Object that checks the collision.
+     * @param {Sprite} sprite Sprite object.
+     */
+    handleCollectableCollision(collisionObject, sprite) {
+        collisionObject.collectableCollision(sprite);
     }
 
     /**
