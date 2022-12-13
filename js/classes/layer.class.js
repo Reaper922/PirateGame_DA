@@ -2,6 +2,9 @@ import { StaticObject } from "./static-object.class.js";
 import { levelSize, tileSize } from "./settings.js";
 import { Sprite } from "./sprite.class.js";
 
+/**
+ * Sprite layer.
+ */
 export class Layer extends StaticObject {
     constructor(ctx, layerData) {
         super(ctx, layerData);
@@ -9,6 +12,10 @@ export class Layer extends StaticObject {
         this.animationFrame = 0;
     }
 
+    /**
+     * Creates the layer based on the tiled array. -> For static layers.
+     * @param {String} layer Name of the layer.
+     */
     createLayer(layer) {
         const dataArray = this.layerData[layer].data;
         const levelWidth = levelSize.width;
@@ -26,6 +33,13 @@ export class Layer extends StaticObject {
         }
     }
 
+    /**
+     * Creates a sprite and adds it to the sprite array.
+     * @param {Number} dataId Id of the sprite.
+     * @param {String} layer Name of the layer.
+     * @param {Number} col Colum of the sprite.
+     * @param {Number} row Row of the sprite.
+     */
     createSprite(dataId, layer, col, row) {
         const tileWidth = tileSize.width;
         const tileHeight = tileSize.height;
@@ -37,6 +51,10 @@ export class Layer extends StaticObject {
         this.sprites.push(sprite)
     }
 
+    /**
+     * Creates the layer based on the animationData array. -> For animated layers.
+     * @param {Object} animationData Object with animation information.
+     */
     loadAnimations(animationData) {
         for (const animation in animationData) {
             this.animations[animation] = [];
@@ -50,7 +68,12 @@ export class Layer extends StaticObject {
         }
     }
 
-    playAnimation(layer, animationObject) {
+    /**
+     * Plays the sprite animation based on the sprite id.
+     * @param {String} layer Name of the layer
+     * @param {Object} layerObject Object of the layer.
+     */
+    playAnimation(layer, layerObject) {
         const dataArray = this.layerData[layer].data;
         const levelWidth = levelSize.width;
         const currentFrame = globalThis.frameCounter;
@@ -63,19 +86,27 @@ export class Layer extends StaticObject {
             const dataId = dataArray[i];
 
             if (dataId != 0) {
-                animationObject.selectAnimation(dataId, col, row);
+                layerObject.selectAnimation(dataId, col, row);
             }
 
             if (col === (levelWidth - 1)) { row += 1 }
         }
     }
 
-    animation(animation, col, row, animationData, animationObject) {
+    /**
+     * Renders the sprite animation based on the animation name.
+     * @param {String} animation Name of the animation.
+     * @param {Number} col Column of the sprite.
+     * @param {Number} row Row of the sprite.
+     * @param {Object} animationData Object with animation data.
+     * @param {Object} layerObject Object of the layer.
+     */
+    renderSprites(animation, col, row, animationData, layerObject) {
         const spriteArr = this.animations[animation];
         const tileWidth = tileSize.width;
         const tileHeight = tileSize.height;
         const numSprites = animationData.animations[animation].numSprites;
-        const spriteOffset = animationObject.setSpriteOffset(animation);
+        const spriteOffset = layerObject.setSpriteOffset(animation);
 
         this.ctx.drawImage(spriteArr[this.animationFrame % numSprites], (col * tileWidth) + spriteOffset.x, ((row * tileHeight)) + spriteOffset.y);
     }

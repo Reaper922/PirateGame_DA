@@ -2,7 +2,7 @@ import { Layer } from "./layer.class.js";
 import { window } from './settings.js';
 
 /**
- * Creates the sky layer object.
+ * Creates the sky layer object with all cloud elements.
  */
 export class Sky extends Layer {
     constructor(ctx, layerData) {
