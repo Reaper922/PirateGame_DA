@@ -176,3 +176,21 @@ export const waterData = {
         }
     }
 }
+
+export const collectableData = {
+    width: 32,
+    height: 32,
+    spriteOffset: -93,
+    spriteCorrection: {
+        x: 0,
+        y: 32
+    },
+    animationSpeed: 18,
+    animations: {
+        gold: {
+            path: './assets/sprites/items/gold',
+            numSprites: 4,
+            start: 0
+        }
+    }
+}
