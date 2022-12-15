@@ -109,6 +109,32 @@ export const playerData = {
     }
 }
 
+export const enemyData = {
+    width: 36,
+    height: 42,
+    speed: 4,
+    health: 1,
+    spriteCorrection: {
+        x: 18,
+        y: 16
+    },
+    animationSpeed: 5,
+    animations: {
+        idle: {
+            path: './assets/sprites/enemies/tooth/idle',
+            numSprites: 8
+        },
+        run_left: {
+            path: './assets/sprites/enemies/tooth/run_left',
+            numSprites: 6
+        },
+        run_right: {
+            path: './assets/sprites/enemies/tooth/run_right',
+            numSprites: 6
+        }
+    }
+}
+
 export const treeBgData = {
     animationSpeed: 30,
     animations: {
