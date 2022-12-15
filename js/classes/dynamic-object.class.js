@@ -48,7 +48,7 @@ export class DynamicObject extends StaticObject {
             }
 
             if (collision.top && collision.bottom && collision.left && collision.right) {
-                this.handleCollisionType(sprite, type, collisionObject);
+                this.handleCollisionType(sprite, type, collisionObject, spritesArray);
             }
         }
     }
@@ -59,7 +59,7 @@ export class DynamicObject extends StaticObject {
      * @param {String} type Type of collision.
      * @param {Object} collisionObject Object that checks the collision.
      */
-    handleCollisionType(sprite, type, collisionObject) {
+    handleCollisionType(sprite, type, collisionObject, spritesArray) {
         switch (type) {
             case 'horizontal':
                 this.handleHorizontalCollision(sprite);
@@ -71,7 +71,7 @@ export class DynamicObject extends StaticObject {
                 this.handleWaterCollision(collisionObject);
                 break;
             case 'collectables':
-                this.handleCollectableCollision(collisionObject, sprite);
+                this.handleCollectableCollision(collisionObject, sprite, spritesArray);
                 break;
         }
     }
@@ -124,8 +124,8 @@ export class DynamicObject extends StaticObject {
      * @param {Object} collisionObject Object that checks the collision.
      * @param {Sprite} sprite Sprite object.
      */
-    handleCollectableCollision(collisionObject, sprite) {
-        collisionObject.collectableCollision(sprite);
+    handleCollectableCollision(collisionObject, sprite, spritesArray) {
+        collisionObject.collectableCollision(sprite, spritesArray);
     }
 
     /**
