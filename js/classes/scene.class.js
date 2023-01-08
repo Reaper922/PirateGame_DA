@@ -1,4 +1,5 @@
 import { Collectable } from "./collectable.class.js";
+import { EnemyCollection } from "./enemy-collection.class.js";
 import { Player } from "./player.class.js";
 import { layerData } from './settings.js';
 import { Sky } from "./sky.class.js";
@@ -38,7 +39,7 @@ export class Scene {
         this.foreground = new TreesFG(this.ctx, this.layerData);
         this.water = new Water(this.ctx, this.layerData);
         this.collectables = new Collectable(this.ctx, this.levelData.layers[5].data);
-        // this.enemies = [];
+        this.enemies = new EnemyCollection(this.ctx, this.levelData.layers[6].data);
         this.setCollisionGroup();
     }
 
@@ -82,6 +83,7 @@ export class Scene {
      */
     update() {
         if (this.sky) { this.sky.update() }
+        if (this.enemies) { this.enemies.update(this.collisionGroup) }
         if (this.player) { this.player.update(this.collisionGroup) }
     }
 
@@ -92,6 +94,7 @@ export class Scene {
         if (this.sky) { this.sky.render() }
         if (this.background) { this.background.render() }
         if (this.terrain) { this.terrain.render() }
+        if (this.enemies) { this.enemies.render() }
         if (this.collectables) { this.collectables.render() }
         if (this.player) { this.player.render() }
         if (this.foreground) { this.foreground.render() }
