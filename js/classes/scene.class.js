@@ -35,7 +35,7 @@ export class Scene {
         this.sky = new Sky(this.ctx, this.layerData);
         this.background = new TreesBG(this.ctx, this.layerData);
         this.terrain = new Terrain(this.ctx, this.layerData);
-        this.player = new Player(this.ctx, this.layerData, { x: 50, y: 200 }); // Player Position in Settings?
+        this.player = new Player(this.ctx, this.layerData, { x: 64, y: 256 }); // Player Position in Settings?
         this.foreground = new TreesFG(this.ctx, this.layerData);
         this.water = new Water(this.ctx, this.layerData);
         this.collectables = new Collectable(this.ctx, this.levelData.layers[5].data);
@@ -94,8 +94,8 @@ export class Scene {
         if (this.sky) { this.sky.render() }
         if (this.background) { this.background.render() }
         if (this.terrain) { this.terrain.render() }
-        if (this.enemies) { this.enemies.render() }
         if (this.collectables) { this.collectables.render() }
+        if (this.enemies) { this.enemies.render() }
         if (this.player) { this.player.render() }
         if (this.foreground) { this.foreground.render() }
         if (this.water) { this.water.render() }
