@@ -21,7 +21,16 @@ export class Enemy extends DynamicObject {
         this.animationFrame = 0;
         this.staggerFrames = enemyData.animationSpeed;
 
-        this.velocity.x = 0;
+        this.velocity.x = 1;
+
+        this.leftRayPos = {
+            x: this.position.x - 5,
+            y: this.position.y + 45
+        }
+        this.rightRayPos = {
+            x: this.position.x + this.width + 1,
+            y: this.position.y + 45
+        }
 
         this.loadAnimations();
     }
@@ -95,15 +104,76 @@ export class Enemy extends DynamicObject {
         }
     }
 
+
+    //, type, collisionObject = null
+    rayCheck(spritesArray) {
+        let isLeftRayColliding = false;
+        let isRightRayColliding = false;
+        
+        for (let i = 0; i < spritesArray.length; i++) {
+            const sprite = spritesArray[i];
+            const leftRayCollision = {
+                top: this.leftRayPos.y < sprite.position.y + sprite.image.height,
+                bottom: this.leftRayPos.y > sprite.position.y,
+                left: this.leftRayPos.x <= sprite.position.x + sprite.image.width,
+                right: this.leftRayPos.x > sprite.position.x
+            }
+            const rightRayCollision = {
+                top: this.rightRayPos.y < sprite.position.y + sprite.image.height,
+                bottom: this.rightRayPos.y > sprite.position.y,
+                left: this.rightRayPos.x <= sprite.position.x + sprite.image.width,
+                right: this.rightRayPos.x > sprite.position.x
+            }
+
+
+            if (leftRayCollision.top && leftRayCollision.bottom && leftRayCollision.left && leftRayCollision.right) {
+                isLeftRayColliding = true;
+            }
+            if (rightRayCollision.top && rightRayCollision.bottom && rightRayCollision.left && rightRayCollision.right) {
+                isRightRayColliding = true;
+            }
+        }
+
+        if (isLeftRayColliding && isRightRayColliding) {
+            console.log('both');
+            return;
+        }
+
+        if (isLeftRayColliding) {
+            console.log('left');
+            this.velocity.x = -1
+            return;
+        }
+
+        if (isRightRayColliding) {
+            console.log('right');
+            this.velocity.x = 1
+            return;
+        }
+    }
+
+    updateRayPos() {
+        this.leftRayPos = {
+            x: this.position.x - 5,
+            y: this.position.y + 45
+        }
+        this.rightRayPos = {
+            x: this.position.x + this.width + 1,
+            y: this.position.y + 45
+        }
+    }
+
     /**
      * Updates the character.
      * @param {Object} collisionGroup Object of the sprites the player can collide with.
      */
     update(collisionGroup, playerAttackRect) {
         this.move();
+        this.updateRayPos();
         this.checkCollision(collisionGroup.terrainSprites, 'horizontal');
         super.addGravity();
         this.checkCollision(collisionGroup.terrainSprites, 'vertical');
+        this.rayCheck(collisionGroup.terrainSprites);
         // this.checkPlayerAttackCollision(playerAttackRect);
         this.setAnimation();
     }
@@ -113,6 +183,11 @@ export class Enemy extends DynamicObject {
      */
     render() {
         this.renderAnimation(this.currentAnimation);
+
+
+
+        // this.drawRay(this.leftRayPos);
+        // this.drawRay(this.rightRayPos);
         // this.drawRect();
     }
 }
