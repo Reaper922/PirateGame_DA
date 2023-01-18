@@ -39,4 +39,15 @@ export class StaticObject {
         this.ctx.rect(this.position.x, this.position.y, this.width, this.height);
         this.ctx.stroke();
     }
+
+    /**
+     * Debugging function that renders a red ray.
+     */
+    drawRay(point) {
+        this.ctx.beginPath();
+        this.ctx.lineWidth = "5";
+        this.ctx.strokeStyle = 'red';
+        this.ctx.rect(point.x, point.y, 1, 1);
+        this.ctx.stroke();
+    }
 }
