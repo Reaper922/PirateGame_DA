@@ -9,7 +9,7 @@ import { TreesFG } from "./trees-fg.class.js";
 import { Water } from "./water.class.js";
 
 /**
- * Scene class that manages the elements (player, enemies, collectables...) and layers (terrain, sky...) of the current level.
+ * Scene class that manages the game elements (player, enemies, collectables...) and layers (terrain, sky...) of the current level.
  */
 export class Scene {
     constructor(ctx, level = 1) {
@@ -39,7 +39,7 @@ export class Scene {
         this.foreground = new TreesFG(this.ctx, this.layerData);
         this.water = new Water(this.ctx, this.layerData);
         this.collectables = new Collectable(this.ctx, this.levelData.layers[5].data);
-        this.enemies = new EnemyCollection(this.ctx, this.levelData.layers[6].data);
+        this.enemies = new EnemyCollection(this.ctx, this.levelData.layers[6].data, this.player);
         this.setCollisionGroup();
     }
 

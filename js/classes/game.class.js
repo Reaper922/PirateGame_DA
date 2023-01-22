@@ -57,10 +57,10 @@ export class Game {
      * Starts the game with the current scene.
      */
     run() {
+        globalThis.frameCounter += 1;
         this.clearCanvas();
         this.update();
         this.render();
-        globalThis.frameCounter += 1;
         requestAnimationFrame(this.run.bind(this));
     }
 }
