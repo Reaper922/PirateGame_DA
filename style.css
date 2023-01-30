@@ -13,10 +13,42 @@ body {
     cursor: none;
 }
 
+div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 16px;
+    width: max-content;
+    height: max-content;
+}
+
+button {
+    cursor: none;
+}
+
 #canvas {
     display: block;
     background: white;
     border: 2px solid black;
+    width: 100%;
+    height: 100%;
+}
+
+#canvas:fullscreen {
+    height: 50px;
+}
+
+#fullscreen {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#mute {
+    position: absolute;
+    top: 5px;
+    right: 90px;
 }
 
 #cursor {
@@ -26,16 +58,8 @@ body {
 }
 
 
-@media only screen and (max-width: 1080px) {
-    #canvas {
-        width: 95%;
-        height: max-content;
+/* @media only screen and (max-height: 480px) {
+    div {
+        height: 98vh;
     }
-}
-
-@media only screen and (max-height: 480px) {
-    #canvas {
-        height: 95%;
-        width: max-content;
-    }
-}
+} */
