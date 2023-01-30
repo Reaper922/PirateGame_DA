@@ -29,7 +29,14 @@ export class Player extends DynamicObject {
         this.isLastInputRight = true;
         this.isAttacking = false;
         this.attackCooldown = false;
+        this.isCollidingWithWater = false;
         this.coins = 0;
+
+        this.attackAudio = new Audio('./assets/sounds/attack.wav');
+        this.jumpAudio = new Audio('./assets/sounds/jump.mp3');
+        this.waterAudio = new Audio('./assets/sounds/water_splash.mp3');
+        this.coinAudio = new Audio('./assets/sounds/coin.wav');
+
 
         this.loadAnimations();
     }
@@ -113,6 +120,7 @@ export class Player extends DynamicObject {
      */
     jump() {
         if (this.canJump && this.velocity.y <= 0) {
+            this.playAudio(this.jumpAudio, 0.4);
             this.velocity.y = 0;
             this.velocity.y -= this.jumpVelocity;
             this.canJump = false;
@@ -124,10 +132,39 @@ export class Player extends DynamicObject {
      */
     attack() {
         if (!this.isAttacking && !this.attackCooldown) {
+            this.playAudio(this.attackAudio, 0.2);
             this.isAttacking = true;
             this.attackCooldown = true;
             this.animationFrame = 0;
             setTimeout(() => { this.attackCooldown = false }, playerData.attackCooldown);
+        }
+    }
+
+    getAttackRect() {
+        let adjustHorizontal = 40
+
+        if (!this.isLastInputRight) { adjustHorizontal = -30}
+        if (this.isAttacking) {
+            return {
+                position: {
+                    x: this.position.x + adjustHorizontal,
+                    y: this.position.y + 20
+                },
+                size: {
+                    width: 30,
+                    height: 20
+                }
+            }
+        }
+        return {
+            position: {
+                x: 0,
+                y: 0
+            },
+            size: {
+                width: 0,
+                height: 0
+            }
         }
     }
 
@@ -151,9 +188,17 @@ export class Player extends DynamicObject {
      * Handles the collision with water and resets the player to the starting position.
      */
     waterCollision() {
-        this.position.x = this.startPosition.x;
-        this.position.y = this.startPosition.y;
-        this.health -= 1;
+        if (!this.isCollidingWithWater) {
+            this.isCollidingWithWater = true
+            this.playAudio(this.waterAudio, 0.4);
+            setTimeout(() => {
+                this.health -= 1;
+                this.velocity.y = 0;
+                this.position.x = this.startPosition.x;
+                this.position.y = this.startPosition.y;
+                this.isCollidingWithWater = false;
+            }, 150)
+        }
     }
 
     /**
@@ -162,6 +207,7 @@ export class Player extends DynamicObject {
      * @param {Array} spritesArray Array of sprites.
      */
     collectableCollision(sprite, spritesArray) {
+        this.playAudio(this.coinAudio, 0.4);
         const index = spritesArray.indexOf(sprite);
         spritesArray.splice(index, 1)
         this.coins += 1;
