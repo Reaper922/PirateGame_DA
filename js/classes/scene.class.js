@@ -8,6 +8,7 @@ import { TreesBG } from "./trees-bg.class.js";
 import { TreesFG } from "./trees-fg.class.js";
 import { Water } from "./water.class.js";
 
+
 /**
  * Scene class that manages the game elements (player, enemies, collectables...) and layers (terrain, sky...) of the current level.
  */
@@ -22,6 +23,8 @@ export class Scene {
             waterSprites: [],
             collectableSprites: []
         }
+
+        this.backgroundAudio = new Audio('./assets/sounds/music.mp3');
 
         this.initObjects();
     }
@@ -78,10 +81,18 @@ export class Scene {
         }
     }
 
+    playAudio() {
+        this.backgroundAudio.muted = globalThis.muteGameSound;
+        this.backgroundAudio.volume = 0.15;
+        this.backgroundAudio.play();
+    }
+
     /**
      * Updates the elements and layers of the current scene.
      */
     update() {
+        //this.playAudio();
+
         if (this.sky) { this.sky.update() }
         if (this.enemies) { this.enemies.update(this.collisionGroup) }
         if (this.player) { this.player.update(this.collisionGroup) }
@@ -99,5 +110,13 @@ export class Scene {
         if (this.player) { this.player.render() }
         if (this.foreground) { this.foreground.render() }
         if (this.water) { this.water.render() }
+
+        // UI
+        this.ctx.fillStyle = "black";
+        this.ctx.font = "48px serif";
+        if (this.player) {
+            this.ctx.fillText(this.player.health + "x ♥", 10, 50);
+            this.ctx.fillText(this.player.coins + "x ❂", 200, 50);
+        }
     }
 }
