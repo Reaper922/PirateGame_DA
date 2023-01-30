@@ -14,6 +14,13 @@ export class StaticObject {
         }
     }
 
+    playAudio(audioObj, volume) {
+        audioObj.muted = globalThis.muteGameSound;
+        audioObj.currentTime = 0;
+        audioObj.volume = volume;
+        audioObj.play();
+    }
+
     /**
      * Updates the game object.
      */
