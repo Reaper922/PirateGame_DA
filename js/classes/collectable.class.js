@@ -58,18 +58,18 @@ export class Collectable extends Layer {
      * Creates the layer based on the animationData array.
      * @param {Object} animationData Object with animation information.
      */
-        loadAnimations(animationData) {
-            for (const animation in animationData) {
-                this.animations[animation] = [];
-                const animationStart = animationData[animation].start;
-                const animationIndex = animationData[animation].numSprites + animationStart;
-    
-                for (let i = animationStart; i < animationIndex; i++) {
-                    const sprite = new Sprite(`${animationData[animation].path}/${i}.png`).image;
-                    this.animations[animation].push(sprite);
-                }
+    loadAnimations(animationData) {
+        for (const animation in animationData) {
+            this.animations[animation] = [];
+            const animationStart = animationData[animation].start;
+            const animationIndex = animationData[animation].numSprites + animationStart;
+
+            for (let i = animationStart; i < animationIndex; i++) {
+                const sprite = new Sprite(`${animationData[animation].path}/${i}.png`).image;
+                this.animations[animation].push(sprite);
             }
         }
+    }
 
     /**
      * Plays the sprite animation based on the sprite id.
