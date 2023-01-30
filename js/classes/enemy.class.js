@@ -105,7 +105,6 @@ export class Enemy extends DynamicObject {
     }
 
 
-    //, type, collisionObject = null
     rayCheck(spritesArray) {
         let isLeftRayColliding = false;
         let isRightRayColliding = false;
@@ -135,18 +134,15 @@ export class Enemy extends DynamicObject {
         }
 
         if (isLeftRayColliding && isRightRayColliding) {
-            console.log('both');
             return;
         }
 
         if (isLeftRayColliding) {
-            console.log('left');
             this.velocity.x = -1
             return;
         }
 
         if (isRightRayColliding) {
-            console.log('right');
             this.velocity.x = 1
             return;
         }
@@ -168,14 +164,16 @@ export class Enemy extends DynamicObject {
      * @param {Object} collisionGroup Object of the sprites the player can collide with.
      */
     update(collisionGroup, playerAttackRect) {
-        this.move();
-        this.updateRayPos();
-        this.checkCollision(collisionGroup.terrainSprites, 'horizontal');
-        super.addGravity();
-        this.checkCollision(collisionGroup.terrainSprites, 'vertical');
-        this.rayCheck(collisionGroup.terrainSprites);
-        // this.checkPlayerAttackCollision(playerAttackRect);
-        this.setAnimation();
+        if (globalThis.frameCounter > 20) {
+            this.move();
+            this.updateRayPos();
+            this.checkCollision(collisionGroup.terrainSprites, 'horizontal');
+            super.addGravity();
+            this.checkCollision(collisionGroup.terrainSprites, 'vertical');
+            this.rayCheck(collisionGroup.terrainSprites);
+            // this.checkPlayerAttackCollision(playerAttackRect);
+            this.setAnimation();
+        }
     }
 
     /**
