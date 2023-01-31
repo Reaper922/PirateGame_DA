@@ -1,11 +1,13 @@
+import { GameAudio } from "./audio.class.js";
 import { Collectable } from "./collectable.class.js";
 import { EnemyCollection } from "./enemy-collection.class.js";
 import { Player } from "./player.class.js";
-import { layerData } from './settings.js';
+import { audioData, layerData, playerData } from './settings.js';
 import { Sky } from "./sky.class.js";
 import { Terrain } from "./terrain.class.js";
 import { TreesBG } from "./trees-bg.class.js";
 import { TreesFG } from "./trees-fg.class.js";
+import { Ui } from "./ui.class.js";
 import { Water } from "./water.class.js";
 
 
@@ -18,13 +20,11 @@ export class Scene {
         this.currentLevel = level;
         this.levelData = {}
         this.layerData = layerData;
-        this.collisionGroup = {
+        this.collisionGroups = {
             terrainSprites: [],
             waterSprites: [],
             collectableSprites: []
         }
-
-        this.backgroundAudio = new Audio('./assets/sounds/music.mp3');
 
         this.initObjects();
     }
@@ -35,15 +35,8 @@ export class Scene {
     async initObjects() {
         await this.loadLevelData();
         this.transferLayerData();
-        this.sky = new Sky(this.ctx, this.layerData);
-        this.background = new TreesBG(this.ctx, this.layerData);
-        this.terrain = new Terrain(this.ctx, this.layerData);
-        this.player = new Player(this.ctx, this.layerData, { x: 64, y: 256 }); // Player Position in Settings?
-        this.foreground = new TreesFG(this.ctx, this.layerData);
-        this.water = new Water(this.ctx, this.layerData);
-        this.collectables = new Collectable(this.ctx, this.levelData.layers[5].data);
-        this.enemies = new EnemyCollection(this.ctx, this.levelData.layers[6].data, this.player);
-        this.setCollisionGroup();
+        this.instantiateClasses();
+        this.setCollisionGroups();
     }
 
     /**
@@ -65,37 +58,49 @@ export class Scene {
     }
 
     /**
+     * Creates new class instances for the game elements.
+     */
+    instantiateClasses() {
+        this.sky = new Sky(this.ctx, this.layerData);
+        this.background = new TreesBG(this.ctx, this.layerData);
+        this.terrain = new Terrain(this.ctx, this.layerData);
+        this.player = new Player(this.ctx, this.layerData, playerData.initialPosition);
+        this.foreground = new TreesFG(this.ctx, this.layerData);
+        this.water = new Water(this.ctx, this.layerData);
+        this.collectables = new Collectable(this.ctx, this.levelData.layers[5].data);
+        this.enemies = new EnemyCollection(this.ctx, this.levelData.layers[6].data, this.player);
+        this.ui = new Ui(this.ctx, this.player);
+        this.backgroundMusic = new GameAudio(audioData.backgroundMusic.path, audioData.backgroundMusic.volume);
+    }
+
+    /**
      * Sets the collisiongroup for elements and layers.
      */
-    setCollisionGroup() {
-        if (this.terrain && this.collisionGroup.terrainSprites.length == 0) {
-            this.collisionGroup.terrainSprites = this.terrain.sprites;
+    setCollisionGroups() {
+        if (this.terrain && this.collisionGroups.terrainSprites.length == 0) {
+            this.collisionGroups.terrainSprites = this.terrain.sprites;
         }
 
-        if (this.water && this.collisionGroup.waterSprites.length == 0) {
-            this.collisionGroup.waterSprites = this.water.sprites;
+        if (this.water && this.collisionGroups.waterSprites.length == 0) {
+            this.collisionGroups.waterSprites = this.water.sprites;
         }
 
-        if (this.collectables && this.collisionGroup.collectableSprites.length == 0) {
-            this.collisionGroup.collectableSprites = this.collectables.sprites;
+        if (this.collectables && this.collisionGroups.collectableSprites.length == 0) {
+            this.collisionGroups.collectableSprites = this.collectables.sprites;
         }
     }
 
-    playAudio() {
-        this.backgroundAudio.muted = globalThis.muteGameSound;
-        this.backgroundAudio.volume = 0.15;
-        this.backgroundAudio.play();
-    }
 
     /**
      * Updates the elements and layers of the current scene.
      */
     update() {
-        //this.playAudio();
-
-        if (this.sky) { this.sky.update() }
-        if (this.enemies) { this.enemies.update(this.collisionGroup) }
-        if (this.player) { this.player.update(this.collisionGroup) }
+        // if (this.backgroundMusic) { this.backgroundMusic.play() }
+        if (globalThis.frameCounter > 30) {
+            if (this.sky) { this.sky.update() }
+            if (this.enemies) { this.enemies.update(this.collisionGroups) }
+            if (this.player) { this.player.update(this.collisionGroups) }
+        }
     }
 
     /**
@@ -110,13 +115,6 @@ export class Scene {
         if (this.player) { this.player.render() }
         if (this.foreground) { this.foreground.render() }
         if (this.water) { this.water.render() }
-
-        // UI
-        this.ctx.fillStyle = "black";
-        this.ctx.font = "48px serif";
-        if (this.player) {
-            this.ctx.fillText(this.player.health + "x ♥", 10, 50);
-            this.ctx.fillText(this.player.coins + "x ❂", 200, 50);
-        }
+        if (this.ui) { this.ui.render() }
     }
 }
