@@ -7,7 +7,6 @@ import { StaticObject } from "./static-object.class.js";
 export class DynamicObject extends StaticObject {
     constructor(ctx, layerData, position) {
         super(ctx, layerData, position);
-        this.isStatic = false;
         this.velocity = {
             x: 0,
             y: 0
@@ -25,7 +24,7 @@ export class DynamicObject extends StaticObject {
      * Moves the object downwards on the y-axis based on the gravity value.
      */
     addGravity() {
-        if (this.velocity.y < 10 && !this.isStatic) {
+        if (this.velocity.y < 10) {
             this.velocity.y += gravity;
         }
         this.position.y += Number(this.velocity.y.toFixed(1));
