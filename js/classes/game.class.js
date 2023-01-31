@@ -8,10 +8,14 @@ export class Game {
     constructor() {
         this.canvas = document.getElementById('canvas');
         this.ctx = canvas.getContext('2d');
+        this.muteBtn = document.getElementById('mute');
+        this.fullscreenBtn = document.getElementById('fullscreen');
         this.scene = new Scene(this.ctx);
         globalThis.frameCounter = 0;
+        globalThis.muteGameSound = false;
 
         this.setCanvasResolution(window);
+        this.eventListener();
     }
 
     /**
@@ -24,7 +28,7 @@ export class Game {
     }
 
     /**
-     * 
+     * Sets the scene to the given level.
      * @param {Number} level Number of the level that should be loaded.
      */
     setScene(level = 1) {
@@ -37,6 +41,43 @@ export class Game {
     clearCanvas() {
         this.ctx.fillStyle = 'lightblue';
         this.ctx.fillRect(0, 0, window.width, window.height);
+    }
+
+    /**
+     * Adds the event listener for the mute and fullscreen buttons.
+     */
+    eventListener() {
+        this.muteBtn.addEventListener('click', () => {
+            this.muteBtn.blur();
+            this.toggleMute();
+        });
+
+        this.fullscreenBtn.addEventListener('click', () => {
+            this.fullscreenBtn.blur();
+            this.toggleFullScreen();
+        });
+    }
+
+    /**
+     * Function that toggles mute.
+     */
+    toggleMute() {
+        if (!globalThis.muteGameSound) {
+            globalThis.muteGameSound = true;
+        } else {
+            globalThis.muteGameSound = false;
+        }
+    }
+
+    /**
+     * Function that toggles the fullscreen mode.
+     */
+    toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.getElementById('container').requestFullscreen();
+        } else if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
     }
 
     /**
