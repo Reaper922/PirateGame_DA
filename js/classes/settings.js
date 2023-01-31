@@ -224,3 +224,34 @@ export const collectableData = {
         }
     }
 }
+
+export const audioData = {
+    backgroundMusic: {
+        path: './assets/sounds/music.mp3',
+        volume: 0.15
+    },
+    jump: {
+        path: './assets/sounds/jump.mp3',
+        volume: 0.15
+    },
+    attack: {
+        path: './assets/sounds/attack.wav',
+        volume: 0.15
+    },
+    water: {
+        path: './assets/sounds/water_splash.mp3',
+        volume: 0.15
+    },
+    hit: {
+        path: './assets/sounds/hit.mp3',
+        volume: 0.15
+    },
+    enemyHit: {
+        path: './assets/sounds/enemy_hit.wav',
+        volume: 0.15
+    },
+    coin: {
+        path: './assets/sounds/coin.wav',
+        volume: 0.15
+    }
+}
