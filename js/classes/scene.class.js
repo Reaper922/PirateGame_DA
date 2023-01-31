@@ -90,7 +90,6 @@ export class Scene {
         }
     }
 
-
     /**
      * Updates the elements and layers of the current scene.
      */
