@@ -54,6 +54,10 @@ export const layerData = {
 }
 
 export const playerData = {
+    initialPosition: {
+        x: 64, 
+        y: 300
+    },
     width: 44,
     height: 56,
     speed: 4,

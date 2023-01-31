@@ -164,16 +164,14 @@ export class Enemy extends DynamicObject {
      * @param {Object} collisionGroup Object of the sprites the player can collide with.
      */
     update(collisionGroup, playerAttackRect) {
-        if (globalThis.frameCounter > 20) {
-            this.move();
-            this.updateRayPos();
-            this.checkCollision(collisionGroup.terrainSprites, 'horizontal');
-            super.addGravity();
-            this.checkCollision(collisionGroup.terrainSprites, 'vertical');
-            this.rayCheck(collisionGroup.terrainSprites);
-            // this.checkPlayerAttackCollision(playerAttackRect);
-            this.setAnimation();
-        }
+        this.move();
+        this.updateRayPos();
+        this.checkCollision(collisionGroup.terrainSprites, 'horizontal');
+        super.addGravity();
+        this.checkCollision(collisionGroup.terrainSprites, 'vertical');
+        this.rayCheck(collisionGroup.terrainSprites);
+        // this.checkPlayerAttackCollision(playerAttackRect);
+        this.setAnimation();
     }
 
     /**

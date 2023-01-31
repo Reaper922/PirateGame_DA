@@ -1,5 +1,5 @@
-import { StaticObject } from "./static-object.class.js";
 import { levelSize, tileSize } from "./settings.js";
+import { StaticObject } from "./static-object.class.js";
 import { Sprite } from "./sprite.class.js";
 
 /**
