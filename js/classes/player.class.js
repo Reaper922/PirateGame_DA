@@ -1,3 +1,4 @@
+import { GameAudio } from "./audio.class.js";
 import { DynamicObject } from "./dynamic-object.class.js";
 import { InputController } from "./input-controller.class.js";
 import { playerData, window } from './settings.js';
@@ -7,17 +8,17 @@ import { Sprite } from "./sprite.class.js";
  * Class that represents the player.
  */
 export class Player extends DynamicObject {
-    constructor(ctx, layerData, position = { x: 0, y: 0 }) {
+    constructor(ctx, layerData, initialPosition = { x: 0, y: 0 }) {
         super(ctx, layerData);
-        this.ctx = ctx;
-        this.inputController = new InputController();
-        this.startPosition = position;
-        super.position = {
-            x: position.x,
-            y: position.y
-        }
         super.width = playerData.width;
         super.height = playerData.height;
+        super.position = {
+            x: initialPosition.x,
+            y: initialPosition.y
+        }
+        this.ctx = ctx;
+        this.inputController = new InputController();
+        this.initialPosition = initialPosition;
         this.speed = playerData.speed;
         this.health = playerData.health;
         this.jumpVelocity = playerData.jumpVelocity;
@@ -32,10 +33,10 @@ export class Player extends DynamicObject {
         this.isCollidingWithWater = false;
         this.coins = 0;
 
-        this.attackAudio = new Audio('./assets/sounds/attack.wav');
-        this.jumpAudio = new Audio('./assets/sounds/jump.mp3');
-        this.waterAudio = new Audio('./assets/sounds/water_splash.mp3');
-        this.coinAudio = new Audio('./assets/sounds/coin.wav');
+        this.attackAudio = new GameAudio('./assets/sounds/attack.wav', 0.2, true);
+        this.jumpAudio = new GameAudio('./assets/sounds/jump.mp3', 0.4, true);
+        this.coinAudio = new GameAudio('./assets/sounds/coin.wav', 0.4, true);
+        this.waterAudio = new GameAudio('./assets/sounds/water_splash.mp3', 0.4);
 
 
         this.loadAnimations();
@@ -120,7 +121,7 @@ export class Player extends DynamicObject {
      */
     jump() {
         if (this.canJump && this.velocity.y <= 0) {
-            this.playAudio(this.jumpAudio, 0.4);
+            this.jumpAudio.play();
             this.velocity.y = 0;
             this.velocity.y -= this.jumpVelocity;
             this.canJump = false;
@@ -132,7 +133,7 @@ export class Player extends DynamicObject {
      */
     attack() {
         if (!this.isAttacking && !this.attackCooldown) {
-            this.playAudio(this.attackAudio, 0.2);
+            this.attackAudio.play();
             this.isAttacking = true;
             this.attackCooldown = true;
             this.animationFrame = 0;
@@ -190,12 +191,12 @@ export class Player extends DynamicObject {
     waterCollision() {
         if (!this.isCollidingWithWater) {
             this.isCollidingWithWater = true
-            this.playAudio(this.waterAudio, 0.4);
+            this.waterAudio.play();
             setTimeout(() => {
                 this.health -= 1;
                 this.velocity.y = 0;
-                this.position.x = this.startPosition.x;
-                this.position.y = this.startPosition.y;
+                this.position.x = this.initialPosition.x;
+                this.position.y = this.initialPosition.y;
                 this.isCollidingWithWater = false;
             }, 150)
         }
@@ -207,7 +208,7 @@ export class Player extends DynamicObject {
      * @param {Array} spritesArray Array of sprites.
      */
     collectableCollision(sprite, spritesArray) {
-        this.playAudio(this.coinAudio, 0.4);
+        this.coinAudio.play();
         const index = spritesArray.indexOf(sprite);
         spritesArray.splice(index, 1)
         this.coins += 1;
