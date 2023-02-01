@@ -11,6 +11,8 @@ export class Game {
         this.muteBtn = document.getElementById('mute');
         this.fullscreenBtn = document.getElementById('fullscreen');
         this.scene = new Scene(this.ctx);
+        this.timePrevFrame = 0;
+        globalThis.deltaTime = 0;
         globalThis.frameCounter = 0;
         globalThis.muteGameSound = false;
 
@@ -97,8 +99,10 @@ export class Game {
     /**
      * Starts the game with the current scene.
      */
-    run() {
+    run(time = 0) {
+        globalThis.deltaTime = (time - this.timePrevFrame) / 100;
         globalThis.frameCounter += 1;
+        this.timePrevFrame = time;
         this.clearCanvas();
         this.update();
         this.render();
