@@ -1,3 +1,5 @@
+import { Sprite } from "./sprite.class.js";
+
 /**
  * Root object of all game objects.
  */
@@ -12,12 +14,53 @@ export class StaticObject {
             x: 0,
             y: 0
         }
+        this.animations = [];
+        this.animationFrame = 0;
+        this.staggerFrames = 5;
+        this.currentAnimation = 'idle';
     }
 
     /**
-     * Updates the game object.
+     * Loads all character animations from the playerData object.
      */
-    update() {
+    loadAnimations(animationData) {
+        for (const animation in animationData) {
+            this.animations[animation] = [];
+
+            for (let i = 0; i < animationData[animation].numSprites; i++) {
+                const spriteImage = new Sprite(`${animationData[animation].path}/${i}.png`).image;
+                this.animations[animation].push(spriteImage);
+            }
+        }
+    }
+
+    /**
+     * Increases the current animation frame based on the staggerFrames value.
+     * Animations can be slowed down by increasing the staggerFrames value and vice versa.
+     */
+    increaseAnimationFrame() {
+        const currentFrame = globalThis.frameCounter;
+
+        if ((currentFrame % this.staggerFrames) == 0) { this.animationFrame++ }
+    }
+
+    /**
+     * Renders the sprite of the currentAnimation based on the animationFrame.
+     * @param {String} name Name of the animation.
+     */
+    renderAnimation(name, data, isEnemy =false) {
+        const animationArr = this.animations[name];
+        const spriteId = this.animationFrame % animationArr.length;
+        let spriteCorrectionX = data.spriteCorrection.x;
+        let spriteCorrectionY = data.spriteCorrection.y;
+
+        if (this.currentAnimation != 'idle' && isEnemy) {
+            spriteCorrectionX = 8;
+            spriteCorrectionY = 2;
+        }
+
+        this.ctx.drawImage(animationArr[spriteId], this.position.x - spriteCorrectionX, this.position.y - spriteCorrectionY);
+        this.increaseAnimationFrame();
     }
 
     /**
