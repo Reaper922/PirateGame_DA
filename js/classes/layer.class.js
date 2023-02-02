@@ -8,8 +8,6 @@ import { Sprite } from "./sprite.class.js";
 export class Layer extends StaticObject {
     constructor(ctx, layerData) {
         super(ctx, layerData);
-        this.animations = [];
-        this.animationFrame = 0;
     }
 
     /**
