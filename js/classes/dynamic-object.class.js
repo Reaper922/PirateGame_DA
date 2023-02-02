@@ -1,6 +1,7 @@
 import { gravity } from "./settings.js";
 import { StaticObject } from "./static-object.class.js";
 
+
 /**
  * Extends the root class with movement, gravity and collision methods.
  */
