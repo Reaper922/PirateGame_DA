@@ -1,6 +1,7 @@
 import { Enemy } from './enemy.class.js';
 import { levelSize, tileSize } from './settings.js';
 
+
 /**
  * Collection of enemies.
  */
