@@ -1,6 +1,7 @@
 import { Scene } from './scene.class.js';
 import { window } from './settings.js';
 
+
 /**
  * Basic game class that creates an instance of the game.
  */
