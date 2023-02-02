@@ -23,8 +23,9 @@ div {
     height: max-content;
 }
 
-button {
-    cursor: none;
+img:hover {
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.4));
+    transform: scale(105%);
 }
 
 #canvas {
@@ -41,14 +42,14 @@ button {
 
 #fullscreen {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 20px;
+    right: 20px;
 }
 
 #mute {
     position: absolute;
-    top: 5px;
-    right: 90px;
+    top: 20px;
+    right: 70px;
 }
 
 #cursor {
