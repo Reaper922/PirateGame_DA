@@ -4,6 +4,7 @@ import { InputController } from "./input-controller.class.js";
 import { playerData, window } from './settings.js';
 import { Sprite } from "./sprite.class.js";
 
+
 /**
  * Class that represents the player.
  */
@@ -16,46 +17,33 @@ export class Player extends DynamicObject {
             x: initialPosition.x,
             y: initialPosition.y
         }
+        super.staggerFrames = playerData.animationSpeed;
         this.ctx = ctx;
         this.inputController = new InputController();
         this.initialPosition = initialPosition;
-        this.speed = playerData.speed;
         this.health = playerData.health;
+        this.coins = 0;
+        this.speed = playerData.speed;
         this.jumpVelocity = playerData.jumpVelocity;
         this.canJump = false;
-        this.animations = [];
-        this.currentAnimation = 'idle_right';
-        this.animationFrame = 0;
-        this.staggerFrames = playerData.animationSpeed;
         this.isLastInputRight = true;
         this.isAttacking = false;
         this.attackCooldown = false;
         this.isCollidingWithWater = false;
-        this.coins = 0;
+        super.currentAnimation = 'idle_right';
 
+        this.instantiateAudio();
+        this.loadAnimations(playerData.animations);
+    }
+
+    /**
+     * Creates new class instances for the game audio.
+     */
+    instantiateAudio() {
         this.attackAudio = new GameAudio('./assets/sounds/attack.wav', 0.2, true);
         this.jumpAudio = new GameAudio('./assets/sounds/jump.mp3', 0.4, true);
         this.coinAudio = new GameAudio('./assets/sounds/coin.wav', 0.4, true);
         this.waterAudio = new GameAudio('./assets/sounds/water_splash.mp3', 0.4);
-
-
-        this.loadAnimations();
-    }
-
-    /**
-     * Loads all character animations from the playerData object.
-     */
-    loadAnimations() {
-        const animationData = playerData.animations;
-
-        for (const animation in animationData) {
-            this.animations[animation] = [];
-
-            for (let i = 0; i < animationData[animation].numSprites; i++) {
-                const spriteImage = new Sprite(`${animationData[animation].path}/${i}.png`).image;
-                this.animations[animation].push(spriteImage);
-            }
-        }
     }
 
     /**
@@ -71,30 +59,6 @@ export class Player extends DynamicObject {
         if (this.velocity.y > 0) { this.currentAnimation = `fall_${direction}` }
         if (this.isAttacking) { this.currentAnimation = `attack_${direction}` }
         this.resetAttackState();
-    }
-
-    /**
-     * Renders the sprite of the currentAnimation based on the animationFrame.
-     * @param {String} name Name of the animation.
-     */
-    renderAnimation(name) {
-        const animationArr = this.animations[name];
-        const spriteId = this.animationFrame % animationArr.length;
-        const spriteCorrectionX = playerData.spriteCorrection.x;
-        const spriteCorrectionY = playerData.spriteCorrection.y;
-
-        this.ctx.drawImage(animationArr[spriteId], this.position.x - spriteCorrectionX, this.position.y - spriteCorrectionY);
-        this.increaseAnimationFrame();
-    }
-
-    /**
-     * Increases the current animation frame based on the staggerFrames value.
-     * Animations can be slowed down by increasing the staggerFrames value and vice versa.
-     */
-    increaseAnimationFrame() {
-        const currentFrame = globalThis.frameCounter;
-
-        if ((currentFrame % this.staggerFrames) == 0) { this.animationFrame++ }
     }
 
     /**
@@ -141,10 +105,18 @@ export class Player extends DynamicObject {
         }
     }
 
+    /**
+     * Resets the attack state after the last frame is rendered.
+     */
+    resetAttackState() {
+        if (this.isAttacking && this.animationFrame === 3) { this.isAttacking = false }
+    }
+
+    
     getAttackRect() {
         let adjustHorizontal = 40
 
-        if (!this.isLastInputRight) { adjustHorizontal = -30}
+        if (!this.isLastInputRight) { adjustHorizontal = -30 }
         if (this.isAttacking) {
             return {
                 position: {
@@ -167,13 +139,6 @@ export class Player extends DynamicObject {
                 height: 0
             }
         }
-    }
-
-    /**
-     * Resets the attack state after the last frame is rendered.
-     */
-    resetAttackState() {
-        if (this.isAttacking && this.animationFrame === 3) { this.isAttacking = false }
     }
 
     /**
@@ -239,7 +204,6 @@ export class Player extends DynamicObject {
         this.checkCollision(collisionGroup.terrainSprites, 'vertical');
         this.checkCollision(collisionGroup.collectableSprites, 'collectables', this);
         this.checkCollision(collisionGroup.waterSprites, 'water', this);
-        if (!this.isAlive()) { } // -----------!!!------------
         this.constraint();
         this.setAnimation();
     }
@@ -248,6 +212,6 @@ export class Player extends DynamicObject {
      * Renders the character sprite.
      */
     render() {
-        this.renderAnimation(this.currentAnimation);
+        this.renderAnimation(this.currentAnimation, playerData);
     }
 }

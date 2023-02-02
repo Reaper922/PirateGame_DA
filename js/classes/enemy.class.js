@@ -1,6 +1,6 @@
 import { DynamicObject } from "./dynamic-object.class.js";
 import { enemyData } from "./settings.js";
-import { Sprite } from "./sprite.class.js";
+
 
 /**
  * Class that represents an enemy.
@@ -8,21 +8,17 @@ import { Sprite } from "./sprite.class.js";
 export class Enemy extends DynamicObject {
     constructor(ctx, layerData, position = { x: 0, y: 0 }) {
         super(ctx, layerData);
+        super.width = enemyData.width;
+        super.height = enemyData.height;
         super.position = {
             x: position.x,
             y: position.y
         }
-        super.width = enemyData.width;
-        super.height = enemyData.height;
-        this.speed = enemyData.speed;
+        super.staggerFrames = enemyData.animationSpeed;
         this.health = enemyData.health;
-        this.animations = [];
-        this.currentAnimation = 'idle';
-        this.animationFrame = 0;
-        this.staggerFrames = enemyData.animationSpeed;
-
-        this.velocity.x = 1;
-
+        this.speed = enemyData.speed;
+        this.isDirectionRight = Math.random() < 0.5;
+        this.velocity.x = this.isDirectionRight ? 1 : -1;
         this.leftRayPos = {
             x: this.position.x - 5,
             y: this.position.y + 45
@@ -32,23 +28,7 @@ export class Enemy extends DynamicObject {
             y: this.position.y + 45
         }
 
-        this.loadAnimations();
-    }
-
-    /**
-     * Loads all character animations from the enemyData object.
-     */
-    loadAnimations() {
-        const animationData = enemyData.animations;
-
-        for (const animation in animationData) {
-            this.animations[animation] = [];
-
-            for (let i = 0; i < animationData[animation].numSprites; i++) {
-                const spriteImage = new Sprite(`${animationData[animation].path}/${i}.png`).image;
-                this.animations[animation].push(spriteImage);
-            }
-        }
+        this.loadAnimations(enemyData.animations);
     }
 
     /**
@@ -58,35 +38,6 @@ export class Enemy extends DynamicObject {
         if (this.velocity.x == 0 && this.velocity.y == 0) { this.currentAnimation = `idle` }
         if (this.velocity.x > 0 && this.velocity.y == 0) { this.currentAnimation = `run_right` }
         if (this.velocity.x < 0 && this.velocity.y == 0) { this.currentAnimation = `run_left` }
-    }
-
-    /**
-     * Renders the sprite of the currentAnimation based on the animationFrame.
-     * @param {String} name Name of the animation.
-     */
-    renderAnimation(name) {
-        const animationArr = this.animations[name];
-        const spriteId = this.animationFrame % animationArr.length;
-        let spriteCorrectionX = enemyData.spriteCorrection.x;
-        let spriteCorrectionY = enemyData.spriteCorrection.y;
-
-        if (this.currentAnimation != 'idle') {
-            spriteCorrectionX = 8;
-            spriteCorrectionY = 2;
-        }
-
-        this.ctx.drawImage(animationArr[spriteId], this.position.x - spriteCorrectionX, this.position.y - spriteCorrectionY);
-        this.increaseAnimationFrame();
-    }
-
-    /**
-     * Increases the current animation frame based on the staggerFrames value.
-     * Animations can be slowed down by increasing the staggerFrames value and vice versa.
-     */
-    increaseAnimationFrame() {
-        const currentFrame = globalThis.frameCounter;
-
-        if ((currentFrame % this.staggerFrames) == 0) { this.animationFrame++ }
     }
 
     checkPlayerAttackCollision(enemiesArr, playerAttackRect) {
@@ -103,7 +54,6 @@ export class Enemy extends DynamicObject {
             }
         }
     }
-
 
     rayCheck(spritesArray) {
         let isLeftRayColliding = false;
@@ -178,7 +128,7 @@ export class Enemy extends DynamicObject {
      * Renders the character sprite.
      */
     render() {
-        this.renderAnimation(this.currentAnimation);
+        this.renderAnimation(this.currentAnimation, enemyData, true);
 
 
 
