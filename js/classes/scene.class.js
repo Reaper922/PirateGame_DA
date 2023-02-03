@@ -95,7 +95,7 @@ export class Scene {
      */
     update() {
         // if (this.backgroundMusic) { this.backgroundMusic.play() }
-        if (globalThis.frameCounter > 30) {
+        if (globalThis.frameCounter > 100) {
             if (this.sky) { this.sky.update() }
             if (this.enemies) { this.enemies.update(this.collisionGroups) }
             if (this.player) { this.player.update(this.collisionGroups) }
