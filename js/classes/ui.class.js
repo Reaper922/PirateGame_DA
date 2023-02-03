@@ -11,9 +11,9 @@ export class Ui {
     render() {
         if (this.player) {
             this.ctx.fillStyle = "black";
-            this.ctx.font = "48px serif";
-            this.ctx.fillText(this.player.health + "x", 20, 55);
-            this.ctx.fillText(this.player.coins + "x", 180, 55);
+            this.ctx.font = "56px MiniPixel-7";
+            this.ctx.fillText(this.player.health + "x", 30, 60);
+            this.ctx.fillText(this.player.coins + "x", 190, 60);
             this.ctx.drawImage(this.heartIcon, 80, 20)
             this.ctx.drawImage(this.skullIcon, 240, 20)
         }
