@@ -6,36 +6,12 @@ import { window } from './settings.js';
  * Basic game class that creates an instance of the game.
  */
 export class Game {
-    constructor() {
-        this.canvas = document.getElementById('canvas');
-        this.ctx = canvas.getContext('2d');
-        this.muteBtn = document.getElementById('mute');
-        this.fullscreenBtn = document.getElementById('fullscreen');
+    constructor(ctx) {
+        this.ctx = ctx;
         this.scene = new Scene(this.ctx);
         this.timePrevFrame = 0;
         globalThis.deltaTime = 0;
         globalThis.frameCounter = 0;
-        globalThis.muteGameSound = false;
-
-        this.setCanvasResolution(window);
-        this.eventListener();
-    }
-
-    /**
-     * Sets the resolution of the canvas.
-     * @param {Object} window Object that contains the width and height of the window.
-     */
-    setCanvasResolution(window) {
-        canvas.width = window.width;
-        canvas.height = window.height;
-    }
-
-    /**
-     * Sets the scene to the given level.
-     * @param {Number} level Number of the level that should be loaded.
-     */
-    setScene(level = 1) {
-        this.scene = new Scene(this.ctx, level);
     }
 
     /**
@@ -47,40 +23,11 @@ export class Game {
     }
 
     /**
-     * Adds the event listener for the mute and fullscreen buttons.
+     * Sets the scene to the given level.
+     * @param {Number} level Number of the level that should be loaded.
      */
-    eventListener() {
-        this.muteBtn.addEventListener('click', () => {
-            this.muteBtn.blur();
-            this.toggleMute();
-        });
-
-        this.fullscreenBtn.addEventListener('click', () => {
-            this.fullscreenBtn.blur();
-            this.toggleFullScreen();
-        });
-    }
-
-    /**
-     * Function that toggles mute.
-     */
-    toggleMute() {
-        if (!globalThis.muteGameSound) {
-            globalThis.muteGameSound = true;
-        } else {
-            globalThis.muteGameSound = false;
-        }
-    }
-
-    /**
-     * Function that toggles the fullscreen mode.
-     */
-    toggleFullScreen() {
-        if (!document.fullscreenElement) {
-            document.getElementById('container').requestFullscreen();
-        } else if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
+    setScene(level = 1) {
+        this.scene = new Scene(this.ctx, level);
     }
 
     /**
@@ -107,6 +54,6 @@ export class Game {
         this.clearCanvas();
         this.update();
         this.render();
-        requestAnimationFrame(this.run.bind(this));
+        globalThis.gameRequestId = requestAnimationFrame(this.run.bind(this));
     }
 }
