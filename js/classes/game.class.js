@@ -1,5 +1,5 @@
 import { Scene } from './scene.class.js';
-import { window } from './settings.js';
+import { loadingDelay, window } from './settings.js';
 
 
 /**
@@ -10,6 +10,7 @@ export class Game {
         this.ctx = ctx;
         this.scene = new Scene(this.ctx);
         this.timePrevFrame = 0;
+        this.isLoaded = false;
         globalThis.deltaTime = 0;
         globalThis.frameCounter = 0;
     }
@@ -31,9 +32,62 @@ export class Game {
     }
 
     /**
+     * Updates the progress bar of the loading screen
+     */
+    updateProgressBar() {
+        if (!this.isLoaded) {
+            const progress = (globalThis.frameCounter / loadingDelay) * 100;
+            const progressBar = document.getElementById('progress');
+
+            progressBar.style.width = `${progress}%`;
+        }
+    }
+
+    /**
+     * Hides the loading screen.
+     */
+    hideLoadingScreen() {
+        if (!this.isLoaded && globalThis.frameCounter >= loadingDelay) {
+            const loadingScreen = document.getElementById('loading-bar');
+            
+            loadingScreen.style.display = 'none';
+            this.isLoaded = true;
+        }
+    }
+
+    /**
+     * Show the touch controls for mobile devices.
+     */
+    showTouchControls() {
+        if (this.isLoaded) {
+            const leftBtn = document.getElementById('left');
+            const rightBtn = document.getElementById('right');
+            const jumpBtn = document.getElementById('jump');
+            const attackBtn = document.getElementById('attack');
+
+            leftBtn.style.display = 'inline';
+            rightBtn.style.display = 'inline';
+            jumpBtn.style.display = 'inline';
+            attackBtn.style.display = 'inline';
+        }
+    }
+
+    /**
+     * Calculates the delta time.
+     * @param {number} time Indicates the current time (based on the number of milliseconds since the game loop started.
+     */
+    calculateDeltaTime(time) {
+        globalThis.deltaTime = (time - this.timePrevFrame) / 100;
+        this.timePrevFrame = time;
+    }
+
+    /**
      * Updates the scene.
      */
     update() {
+        this.updateProgressBar();
+        this.hideLoadingScreen();
+        this.showTouchControls();
         this.scene.update();
     }
 
@@ -48,12 +102,11 @@ export class Game {
      * Starts the game with the current scene.
      */
     run(time = 0) {
-        globalThis.deltaTime = (time - this.timePrevFrame) / 100;
-        globalThis.frameCounter += 1;
-        this.timePrevFrame = time;
+        this.calculateDeltaTime(time);
         this.clearCanvas();
         this.update();
         this.render();
+        globalThis.frameCounter += 1;
         globalThis.gameRequestId = requestAnimationFrame(this.run.bind(this));
     }
 }
