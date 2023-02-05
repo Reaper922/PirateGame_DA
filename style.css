@@ -21,51 +21,129 @@ body {
     cursor: none;
 }
 
-div {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 16px;
-    width: max-content;
-    height: max-content;
-}
-
 img:hover {
     filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.4));
     transform: scale(105%);
 }
 
+#container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    height: max-content;
+    margin: 16px;
+}
+
+/* Canvas */
 #canvas {
     display: block;
-    background: white;
-    border: 2px solid black;
     width: 100%;
     height: 100%;
+    background: white;
 }
 
 #canvas:fullscreen {
     height: 50px;
 }
 
+/* Buttons */
 #play {
     position: absolute;
-    top: calc(50% - 21px);
-    left: calc(50% - 21px);
+    top: calc(50% - 6%);
+    left: calc(50% - 4%);
+    width: 8%;
+    height: 12%;
+    user-select: none;
 }
 
 #fullscreen {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 5%;
+    right: 4%;
+    width: 5%;
+    user-select: none;
 }
 
 #mute {
     position: absolute;
-    top: 20px;
-    right: 70px;
+    top: 5%;
+    right: 10%;
+    width: 5%;
+    user-select: none;
 }
 
+/* Touch Control */
+#left {
+    position: absolute;
+    top: 80%;
+    left: 15%;
+    display: none;
+    width: 8%;
+    user-select: none;
+}
+
+#right {
+    position: absolute;
+    top: 80%;
+    left: 30%;
+    display: none;
+    width: 8%;
+    user-select: none;
+}
+
+#jump {
+    position: absolute;
+    top: 80%;
+    right: 15%;
+    display: none;
+    width: 8%;
+    user-select: none;
+}
+
+#attack {
+    position: absolute;
+    top: 80%;
+    right: 30%;
+    display: none;
+    width: 8%;
+    user-select: none;
+}
+
+/* Loading Screen */
+#loading-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: lightblue;
+}
+
+#loading-bar #bar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: flex-start;
+    width: 40%;
+    height: 6%;
+    margin: 0;
+    border: 5px solid #525252;
+    background-color: white;
+    transform: translate(-50%, -50%);
+}
+
+#loading-bar #progress {
+    width: 0%;
+    height: 100%;
+    margin: 0;
+    background: orange;
+}
+
+/* Cursor */
 #cursor {
     position: fixed;
     top: 0;
