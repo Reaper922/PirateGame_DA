@@ -2,7 +2,7 @@ import { GameAudio } from "./audio.class.js";
 import { Collectable } from "./collectable.class.js";
 import { EnemyCollection } from "./enemy-collection.class.js";
 import { Player } from "./player.class.js";
-import { audioData, layerData, playerData } from './settings.js';
+import { audioData, layerData, loadingDelay, playerData } from './settings.js';
 import { Sky } from "./sky.class.js";
 import { Terrain } from "./terrain.class.js";
 import { TreesBG } from "./trees-bg.class.js";
@@ -94,8 +94,8 @@ export class Scene {
      * Updates the elements and layers of the current scene.
      */
     update() {
-        // if (this.backgroundMusic) { this.backgroundMusic.play() }
-        if (globalThis.frameCounter > 100) {
+        if (globalThis.frameCounter > loadingDelay) {
+            if (this.backgroundMusic) { this.backgroundMusic.play() }
             if (this.sky) { this.sky.update() }
             if (this.enemies) { this.enemies.update(this.collisionGroups) }
             if (this.player) { this.player.update(this.collisionGroups) }

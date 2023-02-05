@@ -13,6 +13,8 @@ export const levelSize = {
     height: 10
 }
 
+export const loadingDelay = 120;
+
 export const gravity = 0.4;
 
 export const layerData = {
