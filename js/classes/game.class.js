@@ -48,7 +48,7 @@ export class Game {
      */
     hideLoadingScreen() {
         if (!this.isLoaded && globalThis.frameCounter >= loadingDelay) {
-            const loadingScreen = document.getElementById('loading-bar');
+            const loadingScreen = document.getElementById('loading-screen');
             
             loadingScreen.style.display = 'none';
             this.isLoaded = true;

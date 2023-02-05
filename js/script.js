@@ -8,7 +8,7 @@ const ctx = canvas.getContext('2d');
 const playBtn = document.getElementById('play');
 const fullscreenBtn = document.getElementById('fullscreen');
 const muteBtn = document.getElementById('mute');
-const loadingScreen = document.getElementById('loading-bar');
+const loadingScreen = document.getElementById('loading-screen');
 
 globalThis.muteGameSound = false;
 

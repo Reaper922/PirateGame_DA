@@ -112,7 +112,7 @@ img:hover {
 }
 
 /* Loading Screen */
-#loading-bar {
+#loading-screen {
     position: absolute;
     top: 0;
     left: 0;
@@ -122,7 +122,7 @@ img:hover {
     background-color: lightblue;
 }
 
-#loading-bar #bar {
+#loading-screen #loading-bar {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -136,7 +136,7 @@ img:hover {
     transform: translate(-50%, -50%);
 }
 
-#loading-bar #progress {
+#loading-screen #progress {
     width: 0%;
     height: 100%;
     margin: 0;
