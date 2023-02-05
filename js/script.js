@@ -2,11 +2,14 @@ import { Game } from './classes/game.class.js';
 import { window } from './classes/settings.js';
 
 
+const container = document.getElementById('container');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const playBtn = document.getElementById('play');
 const fullscreenBtn = document.getElementById('fullscreen');
 const muteBtn = document.getElementById('mute');
+const loadingScreen = document.getElementById('loading-bar');
+
 globalThis.muteGameSound = false;
 
 
@@ -15,7 +18,7 @@ globalThis.muteGameSound = false;
  */
 function init() {
     setCanvasResolution();
-    eventListener();
+    ButtonEventListener();
 }
 
 
@@ -31,13 +34,14 @@ function setCanvasResolution() {
 /**
  * Adds the event listener for the mute and fullscreen buttons.
  */
-function eventListener() {
-    playBtn.addEventListener('click', (event) => {
+function ButtonEventListener() {
+    playBtn.addEventListener('click', () => {
         if (globalThis.gameRequestId) {cancelAnimationFrame(globalThis.gameRequestId)}
         const game = new Game(ctx);
         game.run();
         playBtn.blur();
         playBtn.style.display = 'none';
+        loadingScreen.style.display = 'inline';
     })
 
     fullscreenBtn.addEventListener('click', () => {
@@ -57,7 +61,7 @@ function eventListener() {
  */
 function toggleFullScreen() {
     if (!document.fullscreenElement) {
-        document.getElementById('container').requestFullscreen();
+        container.requestFullscreen();
     } else if (document.exitFullscreen) {
         document.exitFullscreen();
     }
@@ -70,8 +74,10 @@ function toggleFullScreen() {
 function toggleMute() {
     if (!globalThis.muteGameSound) {
         globalThis.muteGameSound = true;
+        muteBtn.src = './assets/sprites/buttons/unmute.png';
     } else {
         globalThis.muteGameSound = false;
+        muteBtn.src = './assets/sprites/buttons/mute.png';
     }
 }
 
@@ -79,19 +85,19 @@ function toggleMute() {
 /**
  * Event listener to position the custom cursor on mouse movement.
  */
-addEventListener('mousemove', (event) => {
+onmousemove = (event) => {
     const cursor = document.getElementById('cursor');
     const offset = 2;
 
     cursor.style.top = `${(event.y + offset).toFixed().toString()}px`;
     cursor.style.left = `${(event.x + offset).toFixed().toString()}px`;
-});
+}
 
 
 /**
  * Event listener to hide the context menu that can be opened on right click.
  */
-addEventListener('contextmenu', (event) => event.preventDefault());
+oncontextmenu = (event) => event.preventDefault();
 
 
 init();
