@@ -59,16 +59,21 @@ export class Game {
      * Show the touch controls for mobile devices.
      */
     showTouchControls() {
-        if (this.isLoaded) {
-            const leftBtn = document.getElementById('left');
-            const rightBtn = document.getElementById('right');
-            const jumpBtn = document.getElementById('jump');
-            const attackBtn = document.getElementById('attack');
+        const leftBtn = document.getElementById('left');
+        const rightBtn = document.getElementById('right');
+        const jumpBtn = document.getElementById('jump');
+        const attackBtn = document.getElementById('attack');
 
+        if (this.isLoaded && navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i)) {
             leftBtn.style.display = 'inline';
             rightBtn.style.display = 'inline';
             jumpBtn.style.display = 'inline';
             attackBtn.style.display = 'inline';
+        } else {
+            leftBtn.style.display = 'none';
+            rightBtn.style.display = 'none';
+            jumpBtn.style.display = 'none';
+            attackBtn.style.display = 'none';
         }
     }
 
