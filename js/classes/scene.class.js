@@ -90,6 +90,31 @@ export class Scene {
         }
     }
 
+    checkSpriteCollision(sprite1, sprite2) {
+        const collision = {
+            top: sprite1.position.y < sprite2.position.y + sprite2.height,
+            bottom: sprite1.position.y + sprite1.height > sprite2.position.y,
+            left: sprite1.position.x < sprite2.position.x + sprite2.width,
+            right: sprite1.position.x + sprite1.width > sprite2.position.x
+        }
+
+        if (collision.top && collision.bottom && collision.left && collision.right) {
+            return true;
+        }
+        return false;
+    }
+
+    checkEnemyCollision() {
+        if (this.player && this.enemies) {
+            const playerCollisionRect = this.player.getCollisionRect();
+            for (const enemy of this.enemies.enemies) {
+                const enemyCollisionRect = enemy.getCollisionRect();
+                const isColliding = this.checkSpriteCollision(playerCollisionRect, enemyCollisionRect);
+                if (isColliding) { this.player.getHurt() }
+            }
+        }
+    }
+
     /**
      * Updates the elements and layers of the current scene.
      */
@@ -99,6 +124,7 @@ export class Scene {
             if (this.sky) { this.sky.update() }
             if (this.enemies) { this.enemies.update(this.collisionGroups) }
             if (this.player) { this.player.update(this.collisionGroups) }
+            if (this.player && this.enemies) { this.checkEnemyCollision() }
         }
     }
 
