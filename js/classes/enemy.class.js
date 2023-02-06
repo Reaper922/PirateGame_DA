@@ -109,6 +109,14 @@ export class Enemy extends DynamicObject {
         }
     }
 
+    getCollisionRect() {
+        return {
+            position: this.position,
+            width: this.width,
+            height: this.height
+        }
+    }
+
     /**
      * Updates the character.
      * @param {Object} collisionGroup Object of the sprites the player can collide with.

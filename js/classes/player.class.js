@@ -31,6 +31,7 @@ export class Player extends DynamicObject {
         this.attackCooldown = false;
         this.isCollidingWithWater = false;
         super.currentAnimation = 'idle_right';
+        this.hurtCooldown = false;
 
         this.instantiateAudio();
         this.loadAnimations(playerData.animations);
@@ -112,7 +113,7 @@ export class Player extends DynamicObject {
         if (this.isAttacking && this.animationFrame === 3) { this.isAttacking = false }
     }
 
-    
+
     getAttackRect() {
         let adjustHorizontal = 40
 
@@ -138,6 +139,22 @@ export class Player extends DynamicObject {
                 width: 0,
                 height: 0
             }
+        }
+    }
+
+    getCollisionRect() {
+        return {
+            position: this.position,
+            width: this.width,
+            height: this.height
+        }
+    }
+
+    getHurt() {
+        if (!this.hurtCooldown) {
+            this.health -= 1;
+            this.hurtCooldown = true;
+            setTimeout(() => { this.hurtCooldown = false }, 500)
         }
     }
 
