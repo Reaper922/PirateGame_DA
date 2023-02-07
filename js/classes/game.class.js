@@ -27,8 +27,26 @@ export class Game {
      * Sets the scene to the given level.
      * @param {Number} level Number of the level that should be loaded.
      */
-    setScene(level = 1) {
-        this.scene = new Scene(this.ctx, level);
+    // setScene(level = 1) {
+    //     this.scene = new Scene(this.ctx, level);
+    // }
+
+    showLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+
+        loadingScreen.style.display = 'inline';
+    }
+
+    /**
+     * Hides the loading screen.
+     */
+    hideLoadingScreen() {
+        if (!this.isLoaded && globalThis.frameCounter >= loadingDelay) {
+            const loadingScreen = document.getElementById('loading-screen');
+
+            loadingScreen.style.display = 'none';
+            this.isLoaded = true;
+        }
     }
 
     /**
@@ -43,16 +61,12 @@ export class Game {
         }
     }
 
-    /**
-     * Hides the loading screen.
-     */
-    hideLoadingScreen() {
-        if (!this.isLoaded && globalThis.frameCounter >= loadingDelay) {
-            const loadingScreen = document.getElementById('loading-screen');
-            
-            loadingScreen.style.display = 'none';
-            this.isLoaded = true;
-        }
+    showEndScreen(type) {
+        const endMessage = document.getElementById('end-message');
+        const endScreen = document.getElementById('end-screen');
+
+        endMessage.innerHTML = type === 'win' ? 'You win!' : 'You lose!';
+        endScreen.style.display = 'inline';
     }
 
     /**
@@ -94,6 +108,7 @@ export class Game {
         this.hideLoadingScreen();
         this.showTouchControls();
         this.scene.update();
+        if (this.scene.gameState != 'running') { this.showEndScreen(this.scene.gameState) }
     }
 
     /**

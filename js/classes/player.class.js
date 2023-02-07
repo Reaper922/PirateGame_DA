@@ -167,6 +167,11 @@ export class Player extends DynamicObject {
         return false;
     }
 
+    allCoinsCollected() {
+        if (this.coins === 5) { return true }
+        return false;
+    }
+
     /**
      * Handles the collision with water and resets the player to the starting position.
      */

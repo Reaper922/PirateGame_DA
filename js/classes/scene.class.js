@@ -27,6 +27,7 @@ export class Scene {
         }
 
         this.initObjects();
+        this.gameState = 'running';
     }
 
     /**
@@ -115,16 +116,29 @@ export class Scene {
         }
     }
 
+    checkCollectableCollision() {
+        if (this.player && this.collectables) {
+            const playerCollisionRect = this.player.getCollisionRect();
+            for (const enemy of this.enemies.enemies) {
+                const enemyCollisionRect = enemy.getCollisionRect();
+                const isColliding = this.checkSpriteCollision(playerCollisionRect, enemyCollisionRect);
+                if (isColliding) { this.player.getHurt() }
+            }
+        }
+    }
+
     /**
      * Updates the elements and layers of the current scene.
      */
     update() {
-        if (globalThis.frameCounter > loadingDelay) {
+        if (globalThis.frameCounter > loadingDelay && this.gameState == 'running') {
             if (this.backgroundMusic) { this.backgroundMusic.play() }
             if (this.sky) { this.sky.update() }
             if (this.enemies) { this.enemies.update(this.collisionGroups) }
             if (this.player) { this.player.update(this.collisionGroups) }
             if (this.player && this.enemies) { this.checkEnemyCollision() }
+            if (!this.player.isAlive()) { this.gameState = 'lose' }
+            if (this.player.allCoinsCollected()) { this.gameState = 'win' }
         }
     }
 

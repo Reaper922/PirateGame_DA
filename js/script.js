@@ -8,7 +8,6 @@ const ctx = canvas.getContext('2d');
 const playBtn = document.getElementById('play');
 const fullscreenBtn = document.getElementById('fullscreen');
 const muteBtn = document.getElementById('mute');
-const loadingScreen = document.getElementById('loading-screen');
 
 globalThis.muteGameSound = false;
 
@@ -39,9 +38,9 @@ function ButtonEventListener() {
         if (globalThis.gameRequestId) {cancelAnimationFrame(globalThis.gameRequestId)}
         const game = new Game(ctx);
         game.run();
+        game.showLoadingScreen();
         playBtn.blur();
         playBtn.style.display = 'none';
-        loadingScreen.style.display = 'inline';
     })
 
     fullscreenBtn.addEventListener('click', () => {
