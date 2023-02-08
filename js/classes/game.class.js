@@ -11,6 +11,7 @@ export class Game {
         this.scene = new Scene(this.ctx);
         this.timePrevFrame = 0;
         this.isLoaded = false;
+        this.isGameOver = false;
         globalThis.deltaTime = 0;
         globalThis.frameCounter = 0;
     }
@@ -54,11 +55,23 @@ export class Game {
      */
     updateProgressBar() {
         if (!this.isLoaded) {
-            const progress = (globalThis.frameCounter / loadingDelay) * 100;
+            const progress = ((globalThis.frameCounter / loadingDelay) * 100).toFixed(2);
             const progressBar = document.getElementById('progress');
+            const boat = document.getElementById('boat');
+            const boatProgress = this.calculateBoatProgress(progress);
 
             progressBar.style.width = `${progress}%`;
+            boat.style.left = `${boatProgress}%`;
         }
+    }
+
+    calculateBoatProgress(progress) {
+        const inpStart = 0;
+        const inpEnd = 100;
+        const outpStart = 2;
+        const outpEnd = 80;
+
+        return outpStart + ((outpEnd - outpStart) / (inpEnd - inpStart)) * (progress - inpStart)
     }
 
     showEndScreen(type) {
@@ -67,6 +80,7 @@ export class Game {
 
         endMessage.innerHTML = type === 'win' ? 'You win!' : 'You lose!';
         endScreen.style.display = 'inline';
+        this.isGameOver = true;
     }
 
     /**
@@ -108,7 +122,7 @@ export class Game {
         this.hideLoadingScreen();
         this.showTouchControls();
         this.scene.update();
-        if (this.scene.gameState != 'running') { this.showEndScreen(this.scene.gameState) }
+        if (this.scene.gameState != 'running' && !this.isGameOver) { this.showEndScreen(this.scene.gameState) }
     }
 
     /**
