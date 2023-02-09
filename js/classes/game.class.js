@@ -12,8 +12,8 @@ export class Game {
         this.timePrevFrame = 0;
         this.isLoaded = false;
         this.isGameOver = false;
-        globalThis.deltaTime = 0;
         globalThis.frameCounter = 0;
+        globalThis.deltaTime = 0;
     }
 
     /**
@@ -32,6 +32,9 @@ export class Game {
     //     this.scene = new Scene(this.ctx, level);
     // }
 
+    /**
+     * Shows the loading screen.
+     */
     showLoadingScreen() {
         const loadingScreen = document.getElementById('loading-screen');
 
@@ -51,7 +54,7 @@ export class Game {
     }
 
     /**
-     * Updates the progress bar of the loading screen
+     * Updates the progress bar and the boat of the loading screen
      */
     updateProgressBar() {
         if (!this.isLoaded) {
@@ -65,22 +68,48 @@ export class Game {
         }
     }
 
+    /**
+     * Calculates the progress of the boat by mapping the range from 2 - 80 to 1 - 100.
+     * @param {number} progress Progress of the progress bar.
+     * @returns Mapped range value (2 - 80).
+     */
     calculateBoatProgress(progress) {
         const inpStart = 0;
         const inpEnd = 100;
         const outpStart = 2;
         const outpEnd = 80;
+        const boatProgress = outpStart + ((outpEnd - outpStart) / (inpEnd - inpStart)) * (progress - inpStart);
 
-        return outpStart + ((outpEnd - outpStart) / (inpEnd - inpStart)) * (progress - inpStart)
+        return boatProgress;
     }
 
-    showEndScreen(type) {
+    /**
+     * Shows the end screen.
+     * @param {string} state Status whether the game was won or lost.
+     */
+    showEndScreen(state) {
         const endMessage = document.getElementById('end-message');
         const endScreen = document.getElementById('end-screen');
 
-        endMessage.innerHTML = type === 'win' ? 'You win!' : 'You lose!';
+        endMessage.innerHTML = state === 'win' ? 'You win!' : 'You lose!';
         endScreen.style.display = 'inline';
         this.isGameOver = true;
+    }
+
+    /**
+     * Hides the end screen.
+     */
+    hideEndScreen() {
+        const endScreen = document.getElementById('end-screen');
+
+        endScreen.style.display = 'none';
+    }
+
+    /**
+     * Stops playing the background music.
+     */
+    stopMusic() {
+        this.scene.backgroundMusic.stop();
     }
 
     /**
