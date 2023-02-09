@@ -16,4 +16,12 @@ export class GameAudio {
         this.audio.muted = globalThis.muteGameSound;
         this.audio.play();
     }
+
+    /**
+     * Stops playing the audio.
+     */
+    stop() {
+        this.audio.currentTime = 0;
+        this.audio.pause();
+    }
 }
