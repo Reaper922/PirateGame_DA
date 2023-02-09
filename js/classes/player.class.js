@@ -43,6 +43,7 @@ export class Player extends DynamicObject {
     instantiateAudio() {
         this.attackAudio = new GameAudio('./assets/sounds/attack.wav', 0.2, true);
         this.jumpAudio = new GameAudio('./assets/sounds/jump.mp3', 0.4, true);
+        this.hitAudio = new GameAudio('./assets/sounds/hit.mp3', 0.4, true)
         this.coinAudio = new GameAudio('./assets/sounds/coin.wav', 0.4, true);
         this.waterAudio = new GameAudio('./assets/sounds/water_splash.mp3', 0.4);
     }
@@ -59,6 +60,7 @@ export class Player extends DynamicObject {
         if (this.velocity.y < 0) { this.currentAnimation = `jump_${direction}` }
         if (this.velocity.y > 0) { this.currentAnimation = `fall_${direction}` }
         if (this.isAttacking) { this.currentAnimation = `attack_${direction}` }
+        if (this.hurtCooldown) { this.currentAnimation = `hit_${direction}` }
         this.resetAttackState();
     }
 
@@ -97,7 +99,7 @@ export class Player extends DynamicObject {
      * Lets the character attack.
      */
     attack() {
-        if (!this.isAttacking && !this.attackCooldown) {
+        if (!this.isAttacking && !this.attackCooldown && !this.hurtCooldown) {
             this.attackAudio.play();
             this.isAttacking = true;
             this.attackCooldown = true;
@@ -154,6 +156,7 @@ export class Player extends DynamicObject {
         if (!this.hurtCooldown) {
             this.health -= 1;
             this.hurtCooldown = true;
+            this.hitAudio.play();
             setTimeout(() => { this.hurtCooldown = false }, 500)
         }
     }
