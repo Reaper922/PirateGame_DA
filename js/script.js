@@ -6,8 +6,11 @@ const container = document.getElementById('container');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const playBtn = document.getElementById('play');
+const playAgainBtn = document.getElementById('play-again');
 const fullscreenBtn = document.getElementById('fullscreen');
 const muteBtn = document.getElementById('mute');
+
+let game = null;
 
 globalThis.muteGameSound = false;
 
@@ -18,6 +21,7 @@ globalThis.muteGameSound = false;
 function init() {
     setCanvasResolution();
     ButtonEventListener();
+    game = new Game(ctx);
 }
 
 
@@ -31,23 +35,58 @@ function setCanvasResolution() {
 
 
 /**
- * Adds the event listener for the mute and fullscreen buttons.
+ * Adds the event listener for all buttons.
  */
 function ButtonEventListener() {
+    playBtnEventListener();
+    playAgainBtnEventListener();
+    fullscreenBtnEventListener();
+    muteBtnEventListener();
+}
+
+
+/**
+ * Adds the event listener for the play button.
+ */
+function playBtnEventListener() {
     playBtn.addEventListener('click', () => {
-        if (globalThis.gameRequestId) {cancelAnimationFrame(globalThis.gameRequestId)}
-        const game = new Game(ctx);
         game.run();
         game.showLoadingScreen();
         playBtn.blur();
         playBtn.style.display = 'none';
-    })
+    });
+}
 
+
+/**
+ * Adds the event listener for the play again button.
+ */
+function playAgainBtnEventListener() {
+    playAgainBtn.addEventListener('click', () => {
+        cancelAnimationFrame(globalThis.gameRequestId);
+        game.stopMusic();
+        game.hideEndScreen();
+        game = new Game(ctx);
+        game.run();
+    });
+}
+
+
+/**
+ * Adds the event listener for the fullscreen button.
+ */
+function fullscreenBtnEventListener() {
     fullscreenBtn.addEventListener('click', () => {
         fullscreenBtn.blur();
         toggleFullScreen();
     });
+}
 
+
+/**
+ * Adds the event listener for the mute button.
+ */
+function muteBtnEventListener() {
     muteBtn.addEventListener('click', () => {
         muteBtn.blur();
         toggleMute();
