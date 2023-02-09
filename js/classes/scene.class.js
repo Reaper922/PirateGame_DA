@@ -91,6 +91,12 @@ export class Scene {
         }
     }
 
+    /**
+     * Checks the collision of two sprites.
+     * @param {object} sprite1 Object with position and dimension properties.
+     * @param {object} sprite2 Object with position and dimension properties.
+     * @returns Returns a boolean if the sprites are colliding.
+     */
     checkSpriteCollision(sprite1, sprite2) {
         const collision = {
             top: sprite1.position.y < sprite2.position.y + sprite2.height,
@@ -105,23 +111,17 @@ export class Scene {
         return false;
     }
 
+    /**
+     * Checks the collision between the player and the enemies.
+     */
     checkEnemyCollision() {
         if (this.player && this.enemies) {
             const playerCollisionRect = this.player.getCollisionRect();
+            
             for (const enemy of this.enemies.enemies) {
                 const enemyCollisionRect = enemy.getCollisionRect();
                 const isColliding = this.checkSpriteCollision(playerCollisionRect, enemyCollisionRect);
-                if (isColliding) { this.player.getHurt() }
-            }
-        }
-    }
 
-    checkCollectableCollision() {
-        if (this.player && this.collectables) {
-            const playerCollisionRect = this.player.getCollisionRect();
-            for (const enemy of this.enemies.enemies) {
-                const enemyCollisionRect = enemy.getCollisionRect();
-                const isColliding = this.checkSpriteCollision(playerCollisionRect, enemyCollisionRect);
                 if (isColliding) { this.player.getHurt() }
             }
         }
