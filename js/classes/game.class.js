@@ -115,7 +115,7 @@ export class Game {
     /**
      * Show the touch controls for mobile devices.
      */
-    showTouchControls() {
+    showTouchControlsOnMobile() {
         const leftBtn = document.getElementById('left');
         const rightBtn = document.getElementById('right');
         const jumpBtn = document.getElementById('jump');
@@ -135,6 +135,19 @@ export class Game {
     }
 
     /**
+     * Hides the custom mouse cursor on mobile devices.
+     */
+    hideCursorOnMobile() {
+        const cursor = document.getElementById('cursor');
+
+        if (navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i)) {
+            cursor.style.display = 'none';
+        } else {
+            cursor.style.display = 'block';
+        }
+    }
+
+    /**
      * Calculates the delta time.
      * @param {number} time Indicates the current time (based on the number of milliseconds since the game loop started.
      */
@@ -149,7 +162,8 @@ export class Game {
     update() {
         this.updateProgressBar();
         this.hideLoadingScreen();
-        this.showTouchControls();
+        this.showTouchControlsOnMobile();
+        this.hideCursorOnMobile();
         this.scene.update();
         if (this.scene.gameState != 'running' && !this.isGameOver) { this.showEndScreen(this.scene.gameState) }
     }

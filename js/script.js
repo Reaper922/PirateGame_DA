@@ -23,6 +23,7 @@ globalThis.muteGameSound = false;
 function init() {
     setCanvasResolution();
     ButtonEventListener();
+    hideCursorOnMobile();
     game = new Game(ctx);
 }
 
@@ -120,6 +121,20 @@ function toggleMute() {
     } else {
         globalThis.muteGameSound = false;
         muteBtn.src = './assets/sprites/buttons/mute.png';
+    }
+}
+
+
+/**
+ * Hides the custom mouse cursor on mobile devices.
+ */
+function hideCursorOnMobile() {
+    const cursor = document.getElementById('cursor');
+
+    if (navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i)) {
+        cursor.style.display = 'none';
+    } else {
+        cursor.style.display = 'inline';
     }
 }
 
