@@ -45,6 +45,15 @@ body {
     height: 50px;
 }
 
+/* Background */
+#background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    user-select: none;
+}
+
 /* Buttons */
 #play {
     position: absolute;
@@ -86,6 +95,15 @@ body {
     filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.4));
     transform: scale(105%);
     transition: 0.1s ease-in-out;
+}
+
+/* Controls */
+#controls {
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+    width: 25%;
+    user-select: none;
 }
 
 /* Touch Control */
@@ -162,6 +180,7 @@ body {
     bottom: 10%;
     left: 2%;
     width: 18%;
+    user-select: none;
 }
 
 #water {
@@ -174,6 +193,7 @@ body {
     background-repeat: repeat-x;
     background-position: right bottom;
     background-size: 20% 20%;
+    user-select: none;
 }
 
 #cloud1 {
@@ -181,6 +201,7 @@ body {
     top: 25%;
     left: 65%;
     width: 30%;
+    user-select: none;
 }
 
 #cloud2 {
@@ -188,6 +209,7 @@ body {
     top: 10%;
     left: 10%;
     width: 30%;
+    user-select: none;
 }
 
 /* End Screen */

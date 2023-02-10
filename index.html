@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,14 +10,19 @@
     <link rel="stylesheet" href="style.css">
     <script defer src="js/script.js" type="module"></script>
 </head>
+
 <body>
     <div id="container">
         <!-- Canvas -->
         <canvas id="canvas"></canvas>
+        <!-- Background -->
+        <img src="./assets/sprites/menu/menu.png" id="background" draggable="false">
         <!-- Buttons -->
         <img src="./assets/sprites/buttons/play.png" id="play" draggable="false">
         <img src="./assets/sprites/buttons/fullscreen.png" id="fullscreen" draggable="false">
         <img src="./assets/sprites/buttons/mute.png" id="mute" draggable="false">
+        <!-- Controls -->
+        <img src="./assets/sprites/menu/controls.png" id="controls" draggable="false">
         <!-- Touch Control -->
         <img src="./assets/sprites/buttons/left.png" id="left" draggable="false">
         <img src="./assets/sprites/buttons/right.png" id="right" draggable="false">
@@ -41,6 +47,8 @@
         </div>
         <!-- Cursor -->
         <img src="./assets/sprites/cursors/mouse.png" id="cursor">
+
     </div>
 </body>
+
 </html>
