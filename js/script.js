@@ -5,10 +5,12 @@ import { window } from './classes/settings.js';
 const container = document.getElementById('container');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+const background = document.getElementById('background');
 const playBtn = document.getElementById('play');
 const playAgainBtn = document.getElementById('play-again');
 const fullscreenBtn = document.getElementById('fullscreen');
 const muteBtn = document.getElementById('mute');
+const controls = document.getElementById('controls');
 
 let game = null;
 
@@ -54,6 +56,8 @@ function playBtnEventListener() {
         game.showLoadingScreen();
         playBtn.blur();
         playBtn.style.display = 'none';
+        background.style.display = 'none';
+        controls.style.display = 'none';
     });
 }
 
