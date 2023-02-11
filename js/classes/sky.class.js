@@ -1,5 +1,5 @@
 import { Layer } from "./layer.class.js";
-import { window } from './settings.js';
+import { gameWindow } from './settings.js';
 
 /**
  * Creates the sky layer object with all cloud elements.
@@ -26,7 +26,7 @@ export class Sky extends Layer {
     resetPosition() {
         for (let sprite of this.sprites) {
             if (sprite.position.x < 0 - sprite.image.width) {
-                sprite.position.x = window.width;
+                sprite.position.x = gameWindow.width;
             }
         }
     }

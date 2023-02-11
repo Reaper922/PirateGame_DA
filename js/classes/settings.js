@@ -1,4 +1,4 @@
-export const window = {
+export const gameWindow = {
     width: 1024,
     height: 640
 }

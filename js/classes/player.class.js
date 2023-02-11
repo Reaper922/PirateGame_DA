@@ -1,7 +1,7 @@
 import { GameAudio } from "./audio.class.js";
 import { DynamicObject } from "./dynamic-object.class.js";
 import { InputController } from "./input-controller.class.js";
-import { playerData, window } from './settings.js';
+import { playerData, gameWindow } from './settings.js';
 import { Sprite } from "./sprite.class.js";
 
 
@@ -208,8 +208,8 @@ export class Player extends DynamicObject {
      * Constrains the player to the canvas and prevents the player from getting out of bounds.
      */
     constraint() {
-        const maxX = window.width - this.width;
-        const maxY = window.height - this.height;
+        const maxX = gameWindow.width - this.width;
+        const maxY = gameWindow.height - this.height;
 
         if (this.position.x < 0) { this.position.x = 0 }
         if (this.position.y < 0) { this.position.y = 0 }
