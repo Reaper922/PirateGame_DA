@@ -1,16 +1,16 @@
 import { Game } from './classes/game.class.js';
-import { window } from './classes/settings.js';
+import { gameWindow } from './classes/settings.js';
 
 
 const container = document.getElementById('container');
+const ratioContainer = document.getElementById('ratio-container');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-const background = document.getElementById('background');
 const playBtn = document.getElementById('play');
 const playAgainBtn = document.getElementById('play-again');
 const fullscreenBtn = document.getElementById('fullscreen');
 const muteBtn = document.getElementById('mute');
-const controls = document.getElementById('controls');
+const cursor = document.getElementById('cursor');
 
 let game = null;
 
@@ -32,39 +32,44 @@ function init() {
  * Sets the resolution of the canvas.
  */
 function setCanvasResolution() {
-    canvas.width = window.width;
-    canvas.height = window.height;
+    canvas.width = gameWindow.width;
+    canvas.height = gameWindow.height;
+}
+
+/**
+ * Resets the styling of the ratio container after exiting fullscreen.
+ */
+function resetRatioContainer() {
+    ratioContainer.style.width = '100%';
+    ratioContainer.style.height = '100%';
 }
 
 
 /**
- * Adds the event listener for all buttons.
+ * Adds the event listener to all elements.
  */
 function ButtonEventListener() {
     playBtnEventListener();
     playAgainBtnEventListener();
     fullscreenBtnEventListener();
     muteBtnEventListener();
+    containerEventListener();
 }
 
 
 /**
- * Adds the event listener for the play button.
+ * Adds the click event listener to the play button.
  */
 function playBtnEventListener() {
     playBtn.addEventListener('click', () => {
+        game.init();
         game.run();
-        game.showLoadingScreen();
-        playBtn.blur();
-        playBtn.style.display = 'none';
-        background.style.display = 'none';
-        controls.style.display = 'none';
     });
 }
 
 
 /**
- * Adds the event listener for the play again button.
+ * Adds the click event listener to the play again button.
  */
 function playAgainBtnEventListener() {
     playAgainBtn.addEventListener('click', () => {
@@ -78,7 +83,7 @@ function playAgainBtnEventListener() {
 
 
 /**
- * Adds the event listener for the fullscreen button.
+ * Adds the click event listener to the fullscreen button.
  */
 function fullscreenBtnEventListener() {
     fullscreenBtn.addEventListener('click', () => {
@@ -89,13 +94,25 @@ function fullscreenBtnEventListener() {
 
 
 /**
- * Adds the event listener for the mute button.
+ * Adds the click event listener to the mute button.
  */
 function muteBtnEventListener() {
     muteBtn.addEventListener('click', () => {
         muteBtn.blur();
         toggleMute();
     });
+}
+
+
+/**
+ * Adds the fullscreenchange event listener to the container.
+ */
+function containerEventListener() {
+    container.addEventListener('fullscreenchange', () => {
+        if(!document.fullscreenElement) {
+            resetRatioContainer();
+        }
+    })
 }
 
 
@@ -129,8 +146,6 @@ function toggleMute() {
  * Hides the custom mouse cursor on mobile devices.
  */
 function hideCursorOnMobile() {
-    const cursor = document.getElementById('cursor');
-
     if (navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i)) {
         cursor.style.display = 'none';
     } else {
@@ -143,7 +158,6 @@ function hideCursorOnMobile() {
  * Event listener to position the custom cursor on mouse movement.
  */
 onmousemove = (event) => {
-    const cursor = document.getElementById('cursor');
     const offset = 2;
 
     cursor.style.top = `${(event.y + offset).toFixed().toString()}px`;
@@ -155,6 +169,29 @@ onmousemove = (event) => {
  * Event listener to hide the context menu that can be opened on right click.
  */
 oncontextmenu = (event) => event.preventDefault();
+
+
+/**
+ * Changes the size of the ratio container in fullscreen to keep the aspect ratio.
+ */
+onresize = () => {
+    const aspectRatioCanvas = gameWindow.width / gameWindow.height;
+    const aspectRatioInner = innerWidth / innerHeight;
+
+    if (document.fullscreenElement && aspectRatioInner < aspectRatioCanvas) {
+        const calcHeight = (innerWidth / gameWindow.width) * gameWindow.height;
+
+        ratioContainer.style.width = `${innerWidth}px`;
+        ratioContainer.style.height = `${calcHeight}px`;
+    }
+
+    if (document.fullscreenElement && aspectRatioInner > aspectRatioCanvas) {
+        const calcWidth = (innerHeight / gameWindow.height) * gameWindow.width;
+
+        ratioContainer.style.width = `${calcWidth}px`;
+        ratioContainer.style.height = `${innerHeight}px`;
+    }
+}
 
 
 init();

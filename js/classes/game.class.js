@@ -1,5 +1,5 @@
 import { Scene } from './scene.class.js';
-import { loadingDelay, window } from './settings.js';
+import { loadingDelay, gameWindow } from './settings.js';
 
 
 /**
@@ -17,11 +17,19 @@ export class Game {
     }
 
     /**
+     * Initial function that have to be calles when an instance is created.
+     */
+    init() {
+        this.hideMenuScreen();
+        this.showLoadingScreen();
+    }
+
+    /**
      * Clears the canvas.
      */
     clearCanvas() {
         this.ctx.fillStyle = 'lightblue';
-        this.ctx.fillRect(0, 0, window.width, window.height);
+        this.ctx.fillRect(0, 0, gameWindow.width, gameWindow.height);
     }
 
     /**
@@ -31,6 +39,19 @@ export class Game {
     // setScene(level = 1) {
     //     this.scene = new Scene(this.ctx, level);
     // }
+
+    hideMenuScreen() {
+        const playBtn = document.getElementById('play');
+        const background = document.getElementById('background');
+        const controls = document.getElementById('controls');
+        const title = document.getElementById('title');
+
+        playBtn.blur();
+        playBtn.style.display = 'none';
+        background.style.display = 'none';
+        controls.style.display = 'none';
+        title.style.display = 'none';
+    }
 
     /**
      * Shows the loading screen.
@@ -88,10 +109,12 @@ export class Game {
      * @param {string} state Status whether the game was won or lost.
      */
     showEndScreen(state) {
-        const endMessage = document.getElementById('end-message');
+        const winMessage = document.getElementById('win');
+        const loseMessage = document.getElementById('lose');
         const endScreen = document.getElementById('end-screen');
 
-        endMessage.innerHTML = state === 'win' ? 'You win!' : 'You lose!';
+        if (state === 'win') { winMessage.style.display = 'inline' };
+        if (state === 'lose') { loseMessage.style.display = 'inline' };
         endScreen.style.display = 'inline';
         this.isGameOver = true;
     }
@@ -100,8 +123,12 @@ export class Game {
      * Hides the end screen.
      */
     hideEndScreen() {
+        const winMessage = document.getElementById('win');
+        const loseMessage = document.getElementById('lose');
         const endScreen = document.getElementById('end-screen');
 
+        winMessage.style.display = 'none';
+        loseMessage.style.display = 'none';
         endScreen.style.display = 'none';
     }
 
