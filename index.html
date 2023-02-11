@@ -13,40 +13,44 @@
 
 <body>
     <div id="container">
-        <!-- Canvas -->
-        <canvas id="canvas"></canvas>
-        <!-- Background -->
-        <img src="./assets/sprites/menu/menu.png" id="background" draggable="false">
-        <!-- Buttons -->
-        <img src="./assets/sprites/buttons/play.png" id="play" draggable="false">
-        <img src="./assets/sprites/buttons/fullscreen.png" id="fullscreen" draggable="false">
-        <img src="./assets/sprites/buttons/mute.png" id="mute" draggable="false">
-        <!-- Controls -->
-        <img src="./assets/sprites/menu/controls.png" id="controls" draggable="false">
-        <!-- Touch Control -->
-        <img src="./assets/sprites/buttons/left.png" id="left" draggable="false">
-        <img src="./assets/sprites/buttons/right.png" id="right" draggable="false">
-        <img src="./assets/sprites/buttons/a.png" id="jump" draggable="false">
-        <img src="./assets/sprites/buttons/b.png" id="attack" draggable="false">
-        <!-- Loading Screen -->
-        <div id="loading-screen">
-            <img src="./assets/sprites/loading_screen/boat.png" id="boat" draggable="false">
-            <img src="./assets/sprites/terrain/clouds/1.png" id="cloud1" draggable="false">
-            <img src="./assets/sprites/terrain/clouds/2.png" id="cloud2" draggable="false">
-            <div id="water"></div>
-            <div id="loading-bar">
-                <div id="progress"></div>
+        <div id="ratio-container">
+            <!-- Canvas -->
+            <canvas id="canvas"></canvas>
+            <!-- Background -->
+            <img src="./assets/sprites/menu/menu.png" id="background" draggable="false">
+            <img src="./assets/sprites/menu/title.png" id="title" draggable="false">
+            <!-- Buttons -->
+            <img src="./assets/sprites/buttons/play.png" id="play" draggable="false">
+            <img src="./assets/sprites/buttons/fullscreen.png" id="fullscreen" draggable="false">
+            <img src="./assets/sprites/buttons/mute.png" id="mute" draggable="false">
+            <!-- Controls -->
+            <img src="./assets/sprites/menu/controls.png" id="controls" draggable="false">
+            <!-- Touch Control -->
+            <img src="./assets/sprites/buttons/left.png" id="left" draggable="false">
+            <img src="./assets/sprites/buttons/right.png" id="right" draggable="false">
+            <img src="./assets/sprites/buttons/a.png" id="jump" draggable="false">
+            <img src="./assets/sprites/buttons/b.png" id="attack" draggable="false">
+            <!-- Loading Screen -->
+            <div id="loading-screen">
+                <img src="./assets/sprites/loading_screen/boat.png" id="boat" draggable="false">
+                <img src="./assets/sprites/terrain/clouds/1.png" id="cloud1" draggable="false">
+                <img src="./assets/sprites/terrain/clouds/2.png" id="cloud2" draggable="false">
+                <div id="water"></div>
+                <div id="loading-bar">
+                    <div id="progress"></div>
+                </div>
             </div>
-        </div>
-        <!-- End Screen -->
-        <div id="end-screen">
-            <div>
-                <h1 id="end-message"></h1>
-                <img src="./assets/sprites/buttons/play_again.png" id="play-again" draggable="false">
+            <!-- End Screen -->
+            <div id="end-screen">
+                <div>
+                    <img src="./assets/sprites/end_screen/win.png" id="win" draggable="false">
+                    <img src="./assets/sprites/end_screen/lose.png" id="lose" draggable="false">
+                    <img src="./assets/sprites/buttons/play_again.png" id="play-again" draggable="false">
+                </div>
             </div>
+            <!-- Cursor -->
+            <img src="./assets/sprites/cursors/mouse.png" id="cursor">
         </div>
-        <!-- Cursor -->
-        <img src="./assets/sprites/cursors/mouse.png" id="cursor">
 
     </div>
 </body>
