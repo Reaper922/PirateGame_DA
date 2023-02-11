@@ -1,5 +1,5 @@
 /**
- * Class for managing player input.
+ * Class for managing player input via keyboard and touch controls.
  */
 export class InputController {
     constructor() {
