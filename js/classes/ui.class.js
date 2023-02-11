@@ -1,3 +1,6 @@
+/**
+ * Class that represents the ui layer. This class contains and renders all ui elements.
+ */
 export class Ui {
     constructor(ctx, player) {
         this.ctx = ctx;
@@ -8,6 +11,9 @@ export class Ui {
         this.skullIcon.src = './assets/sprites/icons/skull.png';
     }
     
+    /**
+     * Renders all ui elements.
+     */
     render() {
         if (this.player) {
             this.ctx.fillStyle = "black";
