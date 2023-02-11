@@ -11,32 +11,35 @@ export class InputController {
             space: false
         }
 
+        this.setEventListenerKeyboard();
+        this.setEventListenerTouchControls();
+    }
+
+    /**
+     * Sets the event listener for keyboard input.
+     */
+    setEventListenerKeyboard() {
         addEventListener('keydown', (event) => this.setPressedKey.bind(this)(event));
         addEventListener('keyup', (event) => this.setReleasedKey.bind(this)(event));
-        document.getElementById('left').addEventListener('pointerdown', () => {
-            this.keysPressed.a = true;
-        })
-        document.getElementById('left').addEventListener('pointerup', () => {
-            this.keysPressed.a = false;
-        })
-        document.getElementById('right').addEventListener('pointerdown', () => {
-            this.keysPressed.d = true;
-        })
-        document.getElementById('right').addEventListener('pointerup', () => {
-            this.keysPressed.d = false;
-        })
-        document.getElementById('jump').addEventListener('pointerdown', () => {
-            this.keysPressed.w = true;
-        })
-        document.getElementById('jump').addEventListener('pointerup', () => {
-            this.keysPressed.w = false;
-        })
-        document.getElementById('attack').addEventListener('pointerdown', () => {
-            this.keysPressed.space = true;
-        })
-        document.getElementById('attack').addEventListener('pointerup', () => {
-            this.keysPressed.space = false;
-        })
+    }
+
+    /**
+     * Sets event listener for input via touch controls.
+     */
+    setEventListenerTouchControls() {
+        const leftTouch = document.getElementById('left');
+        const rightTouch = document.getElementById('right');
+        const jumpTouch = document.getElementById('jump');
+        const attackTouch = document.getElementById('attack');
+
+        leftTouch.addEventListener('pointerdown', () => this.keysPressed.a = true);
+        leftTouch.addEventListener('pointerup', () => this.keysPressed.a = false);
+        rightTouch.addEventListener('pointerdown', () => this.keysPressed.d = true);
+        rightTouch.addEventListener('pointerup', () => this.keysPressed.d = false);
+        jumpTouch.addEventListener('pointerdown', () => this.keysPressed.w = true);
+        jumpTouch.addEventListener('pointerup', () => this.keysPressed.w = false);
+        attackTouch.addEventListener('pointerdown', () => this.keysPressed.space = true);
+        attackTouch.addEventListener('pointerup', () => this.keysPressed.space = false);
     }
 
     /**
