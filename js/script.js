@@ -36,14 +36,6 @@ function setCanvasResolution() {
     canvas.height = gameWindow.height;
 }
 
-/**
- * Resets the styling of the ratio container after exiting fullscreen.
- */
-function resetRatioContainer() {
-    ratioContainer.style.width = '100%';
-    ratioContainer.style.height = '100%';
-}
-
 
 /**
  * Adds the event listener to all elements.
@@ -109,10 +101,10 @@ function muteBtnEventListener() {
  */
 function containerEventListener() {
     container.addEventListener('fullscreenchange', () => {
-        if(!document.fullscreenElement) {
+        if (!document.fullscreenElement) {
             resetRatioContainer();
         }
-    })
+    });
 }
 
 
@@ -139,6 +131,15 @@ function toggleMute() {
         globalThis.muteGameSound = false;
         muteBtn.src = './assets/sprites/buttons/mute.png';
     }
+}
+
+
+/**
+ * Resets the styling of the ratio container after exiting fullscreen.
+ */
+function resetRatioContainer() {
+    ratioContainer.style.width = '100%';
+    ratioContainer.style.height = '100%';
 }
 
 
@@ -172,7 +173,7 @@ oncontextmenu = (event) => event.preventDefault();
 
 
 /**
- * Changes the size of the ratio container in fullscreen to keep the aspect ratio.
+ * Event listener to change the size of the ratio container in fullscreen to keep the aspect ratio.
  */
 onresize = () => {
     const aspectRatioCanvas = gameWindow.width / gameWindow.height;

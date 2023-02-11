@@ -17,7 +17,7 @@ export class Game {
     }
 
     /**
-     * Initial function that have to be calles when an instance is created.
+     * Initial function that have to be called before the run function is executed.
      */
     init() {
         this.hideMenuScreen();
@@ -75,7 +75,7 @@ export class Game {
     }
 
     /**
-     * Updates the progress bar and the boat of the loading screen
+     * Updates the progress bar and the boat of the loading screen.
      */
     updateProgressBar() {
         if (!this.isLoaded) {
@@ -147,18 +147,12 @@ export class Game {
         const rightBtn = document.getElementById('right');
         const jumpBtn = document.getElementById('jump');
         const attackBtn = document.getElementById('attack');
+        const isMobileDevice = navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i);
 
-        if (this.isLoaded && navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i)) {
-            leftBtn.style.display = 'inline';
-            rightBtn.style.display = 'inline';
-            jumpBtn.style.display = 'inline';
-            attackBtn.style.display = 'inline';
-        } else {
-            leftBtn.style.display = 'none';
-            rightBtn.style.display = 'none';
-            jumpBtn.style.display = 'none';
-            attackBtn.style.display = 'none';
-        }
+        leftBtn.style.display = isMobileDevice ? 'inline' : 'none';
+        rightBtn.style.display = isMobileDevice ? 'inline' : 'none';
+        jumpBtn.style.display = isMobileDevice ? 'inline' : 'none';
+        attackBtn.style.display = isMobileDevice ? 'inline' : 'none';
     }
 
     /**
@@ -166,17 +160,14 @@ export class Game {
      */
     hideCursorOnMobile() {
         const cursor = document.getElementById('cursor');
+        const isMobileDevice = navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i);
 
-        if (navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i)) {
-            cursor.style.display = 'none';
-        } else {
-            cursor.style.display = 'block';
-        }
+        cursor.style.display = isMobileDevice ? 'none' : 'block';
     }
 
     /**
      * Calculates the delta time.
-     * @param {number} time Indicates the current time (based on the number of milliseconds since the game loop started.
+     * @param {number} time Indicates the current time (based on the number of milliseconds since the game loop started).
      */
     calculateDeltaTime(time) {
         globalThis.deltaTime = (time - this.timePrevFrame) / 100;

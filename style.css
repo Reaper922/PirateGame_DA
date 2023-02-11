@@ -262,10 +262,10 @@ body {
 
 @keyframes pulsating {
     from {
-        transform: translate(-50%, -50%) scale(80%);
+        transform: translate(-50%, -50%) scale(70%);
     }
 
     to {
-        transform: translate(-50%, -50%) scale(90%);
+        transform: translate(-50%, -50%) scale(80%);
     }
 }
