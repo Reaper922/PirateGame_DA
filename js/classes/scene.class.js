@@ -68,7 +68,7 @@ export class Scene {
         this.player = new Player(this.ctx, this.layerData, playerData.initialPosition);
         this.foreground = new TreesFG(this.ctx, this.layerData);
         this.water = new Water(this.ctx, this.layerData);
-        this.collectables = new Collectable(this.ctx, this.levelData.layers[5].data);
+        this.collectables = new Collectable(this.ctx, this.layerData);
         this.enemies = new EnemyCollection(this.ctx, this.levelData.layers[6].data, this.player);
         this.ui = new Ui(this.ctx, this.player);
         this.backgroundMusic = new GameAudio(audioData.backgroundMusic.path, audioData.backgroundMusic.volume);
