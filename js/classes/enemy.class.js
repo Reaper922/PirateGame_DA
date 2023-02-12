@@ -19,7 +19,7 @@ export class Enemy extends DynamicObject {
         this.health = enemyData.health;
         this.speed = enemyData.speed;
         this.isDirectionRight = Math.random() < 0.5;
-        this.velocity.x = this.isDirectionRight ? 1 : -1;
+        this.velocity.x = this.isDirectionRight ? this.speed : -this.speed;
         this.leftRayPos = {
             x: this.position.x - 5,
             y: this.position.y + 45
@@ -104,12 +104,12 @@ export class Enemy extends DynamicObject {
         if (isLeftRayColliding && isRightRayColliding) { return }
 
         if (isLeftRayColliding) {
-            this.velocity.x = -1;
+            this.velocity.x = -this.speed;
             return;
         }
 
         if (isRightRayColliding) {
-            this.velocity.x = 1;
+            this.velocity.x = this.speed;
             return;
         }
     }

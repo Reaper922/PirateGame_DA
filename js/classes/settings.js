@@ -15,7 +15,7 @@ export const levelSize = {
 
 export const loadingDelay = 120;
 
-export const gravity = 0.4;
+export const gravity = 2.5;
 
 export const layerData = {
     sky: {
@@ -69,7 +69,7 @@ export const playerData = {
     },
     width: 44,
     height: 56,
-    speed: 4,
+    speed: 25,
     health: 3,
     attackCooldown: 500,
     jumpVelocity: 9,
@@ -145,7 +145,7 @@ export const playerData = {
 export const enemyData = {
     width: 36,
     height: 42,
-    speed: 4,
+    speed: 6.25,
     health: 1,
     spriteCorrection: {
         x: 18,

@@ -18,7 +18,7 @@ export class DynamicObject extends StaticObject {
      * Moves the object on the x-axis based on the x-velocity.
      */
     move() {
-        this.position.x += this.velocity.x;
+        this.position.x += this.velocity.x * globalThis.deltaTime;
     }
 
     /**
@@ -26,7 +26,7 @@ export class DynamicObject extends StaticObject {
      */
     addGravity() {
         if (this.velocity.y < 10) {
-            this.velocity.y += gravity;
+            this.velocity.y += gravity * globalThis.deltaTime;
         }
         this.position.y += Number(this.velocity.y.toFixed(1));
     }
