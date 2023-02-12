@@ -1,8 +1,9 @@
 import { Layer } from "./layer.class.js";
 import { waterData } from './settings.js';
 
+
 /**
- * Creates the Water layer object with water elements.
+ * Creates the water layer object with water elements.
  */
 export class Water extends Layer {
     constructor(ctx, layerData) {
@@ -18,7 +19,7 @@ export class Water extends Layer {
      * Select the corresponding animation based on the sprite id.
      * @param {Number} dataId Id of the sprite.
      * @param {Number} col Column of the sprite.
-     * @param {row} row Row of the sprite
+     * @param {row} row Row of the sprite.
      */
     selectAnimation(dataId, col, row) {
         switch (dataId) {
@@ -46,4 +47,4 @@ export class Water extends Layer {
     render() {
         this.playAnimation(this.layerName, this);
     }
-} 
+}

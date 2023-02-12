@@ -1,6 +1,7 @@
 import { Layer } from "./layer.class.js";
 import { gameWindow } from './settings.js';
 
+
 /**
  * Creates the sky layer object with all cloud elements.
  */
@@ -16,6 +17,7 @@ export class Sky extends Layer {
     move() {
         for (let i = 0; i < this.sprites.length; i++) {
             const currentSprite = this.sprites[i];
+            
             currentSprite.position.x -= 0.1;
         }
     }
@@ -38,4 +40,4 @@ export class Sky extends Layer {
         this.resetPosition();
         this.move();
     }
-} 
+}

@@ -1,6 +1,7 @@
 import { Layer } from "./layer.class.js";
 import { tileSize, treeBgData } from './settings.js';
 
+
 /**
  * Creates the TreesBg layer object with trees that are rendered in the background.
  */
@@ -46,4 +47,4 @@ export class TreesBG extends Layer {
     render() {
         this.playAnimation(this.layerName, this);
     }
-} 
+}

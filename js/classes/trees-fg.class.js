@@ -1,6 +1,7 @@
 import { Layer } from "./layer.class.js";
 import { tileSize, treeFgData } from './settings.js';
 
+
 /**
  * Creates the TreesFg layer object with trees that are rendered in the foreground.
  */
@@ -50,4 +51,4 @@ export class TreesFG extends Layer {
     render() {
         this.playAnimation(this.layerName, this);
     }
-} 
+}
