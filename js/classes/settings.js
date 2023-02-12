@@ -52,6 +52,13 @@ export const layerData = {
         data: [],
         numSprites: 4,
         spriteOffset: 0
+    },
+    collectable: {
+        id: 5,
+        path: './assets/sprites/items/gold',
+        data: [],
+        numSprites: 4,
+        spriteOffset: -93
     }
 }
 
@@ -235,7 +242,6 @@ export const waterData = {
 export const collectableData = {
     width: 32,
     height: 32,
-    spriteOffset: -93,
     spriteCorrection: {
         x: 0,
         y: 32
