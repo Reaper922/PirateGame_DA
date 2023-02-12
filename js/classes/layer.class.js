@@ -2,8 +2,9 @@ import { levelSize, tileSize } from "./settings.js";
 import { StaticObject } from "./static-object.class.js";
 import { Sprite } from "./sprite.class.js";
 
+
 /**
- * Sprite layer.
+ * Class that represents a sprite layer.
  */
 export class Layer extends StaticObject {
     constructor(ctx, layerData) {
@@ -42,32 +43,15 @@ export class Layer extends StaticObject {
         const tileWidth = tileSize.width;
         const tileHeight = tileSize.height;
         const id = dataId + this.layerData[layer].spriteOffset;
-        const sprite = new Sprite(`${this.layerData[layer].path}/${id}.png`)
+        const sprite = new Sprite(`${this.layerData[layer].path}/${id}.png`);
 
         sprite.position.x = col * tileWidth;
         sprite.position.y = row * tileHeight;
-        this.sprites.push(sprite)
+        this.sprites.push(sprite);
     }
 
     /**
-     * Creates the layer based on the animationData array. -> For animated layers.
-     * @param {Object} animationData Object with animation information.
-     */
-    loadAnimations(animationData) {
-        for (const animation in animationData) {
-            this.animations[animation] = [];
-            const animationStart = animationData[animation].start;
-            const animationIndex = animationData[animation].numSprites + animationStart;
-
-            for (let i = animationStart; i < animationIndex; i++) {
-                const sprite = new Sprite(`${animationData[animation].path}/${i}.png`).image;
-                this.animations[animation].push(sprite);
-            }
-        }
-    }
-
-    /**
-     * Plays the sprite animation based on the sprite id.
+     * Play the sprite animation based on the sprite id.
      * @param {String} layer Name of the layer
      * @param {Object} layerObject Object of the layer.
      */
