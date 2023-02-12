@@ -253,13 +253,3 @@ body {
         transform: translate(-50%, -50%) scale(80%);
     }
 }
-
-@media screen and (orientation:landscape) { 
-    #container {
-        height: 100%;
-    }
-
-    #ratio-container {
-        height: 100%;
-    }
- }
