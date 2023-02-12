@@ -1,58 +1,21 @@
-import { collectableData, levelSize, tileSize } from './settings.js';
+import { collectableData } from './settings.js';
 import { Layer } from "./layer.class.js";
-import { Sprite } from './sprite.class.js';
 
 
 /**
  * Class that represents a collectable i.e. a coin.
  */
 export class Collectable extends Layer {
-    constructor(ctx, data) {
-        super(ctx);
-        this.data = data;
+    constructor(ctx, layerData) {
+        super(ctx, layerData);
+        this.layerData = layerData;
         super.width = collectableData.width;
         super.height = collectableData.height;
         super.staggerFrames = collectableData.animationSpeed;
+        this.layerName = 'collectable';
 
-        this.createLayer(data);
+        this.createLayer(this.layerName, collectableData);
         this.loadAnimations(collectableData.animations);
-    }
-
-    /**
-     * Creates the layer based on the dataArray.
-     * @param {Array} dataArray Array of data ids.
-     */
-    createLayer(dataArray) {
-        const levelWidth = levelSize.width;
-        let row = 0;
-
-        for (let i = 0; i < dataArray.length; i++) {
-            const col = i % levelWidth;
-            const dataId = dataArray[i];
-
-            if (dataId != 0) {
-                this.createSprite(dataId, col, row);
-            }
-
-            if (col === (levelWidth - 1)) { row += 1 }
-        }
-    }
-
-    /**
-     * Creates a sprite and adds it to the sprite array.
-     * @param {Number} dataId Id of the sprite.
-     * @param {Number} col Colum of the sprite.
-     * @param {Number} row Row of the sprite.
-     */
-    createSprite(dataId, col, row) {
-        const tileWidth = tileSize.width;
-        const tileHeight = tileSize.height;
-        const id = dataId + collectableData.spriteOffset;
-        const sprite = new Sprite(`./assets/sprites/items/gold/${id}.png`)
-
-        sprite.position.x = col * tileWidth;
-        sprite.position.y = (row * tileHeight) + collectableData.spriteCorrection.y;
-        this.sprites.push(sprite)
     }
 
     /**
@@ -84,6 +47,6 @@ export class Collectable extends Layer {
      * Renders the collectables.
      */
     render() {
-        this.playAnimation(this.data);
+        this.playAnimation();
     }
 }
