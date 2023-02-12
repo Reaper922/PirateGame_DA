@@ -116,22 +116,42 @@ export class Player extends DynamicObject {
     }
 
 
+    /**
+     * Returns the attack rectangle for checking if an enemy gets hit.
+     * @returns Attack rectangle.
+     */
     getAttackRect() {
-        let adjustHorizontal = 40
+        let adjustHorizontal = 40;
 
         if (!this.isLastInputRight) { adjustHorizontal = -30 }
         if (this.isAttacking) {
-            return {
-                position: {
-                    x: this.position.x + adjustHorizontal,
-                    y: this.position.y + 20
-                },
-                size: {
-                    width: 30,
-                    height: 20
-                }
+            return this.getUpdatedAttackRect();
+        }
+        return this.getDefaultAttackRect();
+    }
+
+    /**
+     * Returns the updated attack rectangle.
+     * @returns Updated attack rectangle.
+     */
+    getUpdatedAttackRect(adjustHorizontal) {
+        return {
+            position: {
+                x: this.position.x + adjustHorizontal,
+                y: this.position.y + 20
+            },
+            size: {
+                width: 30,
+                height: 20
             }
         }
+    }
+
+    /**
+     * Returns the default attack rectangle.
+     * @returns Default attack rectangle.
+     */
+    getDefaultAttackRect() {
         return {
             position: {
                 x: 0,
@@ -144,6 +164,10 @@ export class Player extends DynamicObject {
         }
     }
 
+    /**
+     * Returns the current collision rectangle.
+     * @returns Object with position, width and height of the current enemy position.
+     */
     getCollisionRect() {
         return {
             position: this.position,
@@ -152,24 +176,31 @@ export class Player extends DynamicObject {
         }
     }
 
+    /**
+     * Subtracts one health from the player lives and sets a cooldown before the player can be injured again.
+     */
     getHurt() {
         if (!this.hurtCooldown) {
             this.health -= 1;
             this.hurtCooldown = true;
             this.hitAudio.play();
-            setTimeout(() => { this.hurtCooldown = false }, 500)
+            setTimeout(() => { this.hurtCooldown = false }, 500);
         }
     }
 
     /**
      * Checks if the player is alive.
-     * @returns Returns a boolean if the player is alive.
+     * @returns Returns a boolean wether the player is alive.
      */
     isAlive() {
         if (this.health > 0) { return true }
         return false;
     }
 
+    /**
+     * Checks if the player has collected all coins.
+     * @returns Returns a boolean wether the player has collected all coins.
+     */
     allCoinsCollected() {
         if (this.coins === 5) { return true }
         return false;

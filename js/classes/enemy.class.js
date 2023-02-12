@@ -1,3 +1,4 @@
+import { GameAudio } from "./audio.class.js";
 import { DynamicObject } from "./dynamic-object.class.js";
 import { enemyData } from "./settings.js";
 
@@ -27,6 +28,7 @@ export class Enemy extends DynamicObject {
             x: this.position.x + this.width + 1,
             y: this.position.y + 45
         }
+        this.enemyHitAudio = new GameAudio("./assets/sounds/enemy_hit.wav");
 
         this.loadAnimations(enemyData.animations);
     }
@@ -40,64 +42,9 @@ export class Enemy extends DynamicObject {
         if (this.velocity.x < 0 && this.velocity.y == 0) { this.currentAnimation = `run_left` }
     }
 
-    checkPlayerAttackCollision(enemiesArr, playerAttackRect) {
-        const collision = {
-            top: this.position.y < playerAttackRect.position.y + playerAttackRect.size.height,
-            bottom: this.position.y + this.height > playerAttackRect.position.y,
-            left: this.position.x < playerAttackRect.position.x + playerAttackRect.size.width,
-            right: this.position.x + this.width > playerAttackRect.position.x
-        }
-
-        if (collision.top && collision.bottom && collision.left && collision.right) {
-            if (enemiesArr == this) {
-                console.log('enemie dead')
-            }
-        }
-    }
-
-    rayCheck(spritesArray) {
-        let isLeftRayColliding = false;
-        let isRightRayColliding = false;
-        
-        for (let i = 0; i < spritesArray.length; i++) {
-            const sprite = spritesArray[i];
-            const leftRayCollision = {
-                top: this.leftRayPos.y < sprite.position.y + sprite.image.height,
-                bottom: this.leftRayPos.y > sprite.position.y,
-                left: this.leftRayPos.x <= sprite.position.x + sprite.image.width,
-                right: this.leftRayPos.x > sprite.position.x
-            }
-            const rightRayCollision = {
-                top: this.rightRayPos.y < sprite.position.y + sprite.image.height,
-                bottom: this.rightRayPos.y > sprite.position.y,
-                left: this.rightRayPos.x <= sprite.position.x + sprite.image.width,
-                right: this.rightRayPos.x > sprite.position.x
-            }
-
-
-            if (leftRayCollision.top && leftRayCollision.bottom && leftRayCollision.left && leftRayCollision.right) {
-                isLeftRayColliding = true;
-            }
-            if (rightRayCollision.top && rightRayCollision.bottom && rightRayCollision.left && rightRayCollision.right) {
-                isRightRayColliding = true;
-            }
-        }
-
-        if (isLeftRayColliding && isRightRayColliding) {
-            return;
-        }
-
-        if (isLeftRayColliding) {
-            this.velocity.x = -1
-            return;
-        }
-
-        if (isRightRayColliding) {
-            this.velocity.x = 1
-            return;
-        }
-    }
-
+    /**
+     * Updates the position of the left and right ray.
+     */
     updateRayPos() {
         this.leftRayPos = {
             x: this.position.x - 5,
@@ -109,6 +56,68 @@ export class Enemy extends DynamicObject {
         }
     }
 
+    /**
+     * Checks if the left and right rays are colliding and sets the move direction of the enemy.
+     * @param {Array} spritesArray Array of terrain sprites.
+     */
+    checkRays(spritesArray) {
+        let isLeftRayColliding = false;
+        let isRightRayColliding = false;
+
+        for (let i = 0; i < spritesArray.length; i++) {
+            const sprite = spritesArray[i];
+
+            if (this.checkRayCollision(sprite, this.leftRayPos)) { isLeftRayColliding = true }
+            if (this.checkRayCollision(sprite, this.rightRayPos)) { isRightRayColliding = true }
+        }
+
+        this.raySetVelocity(isLeftRayColliding, isRightRayColliding);
+    }
+
+    /**
+     * Checks if the given ray object is colliding with the sprite.
+     * @param {Sprite} sprite Sprite of the terrain array.
+     * @param {Object} ray Object with the ray position.
+     * @returns Boolean wether the sprite is colliding with the ray.
+     */
+    checkRayCollision(sprite, ray) {
+        const rayCollision = {
+            top: ray.y < sprite.position.y + sprite.image.height,
+            bottom: ray.y > sprite.position.y,
+            left: ray.x <= sprite.position.x + sprite.image.width,
+            right: ray.x > sprite.position.x
+        }
+
+        if (rayCollision.top && rayCollision.bottom && rayCollision.left && rayCollision.right) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Sets the velocity of the enemy. Enemy changes direction when he gets too close to the edge.
+     * @param {Boolean} isLeftRayColliding Boolean if the left ray is colliding.
+     * @param {*} isRightRayColliding Boolean if the right ray is colliding.
+     * @returns void
+     */
+    raySetVelocity(isLeftRayColliding, isRightRayColliding) {
+        if (isLeftRayColliding && isRightRayColliding) { return }
+
+        if (isLeftRayColliding) {
+            this.velocity.x = -1;
+            return;
+        }
+
+        if (isRightRayColliding) {
+            this.velocity.x = 1;
+            return;
+        }
+    }
+
+    /**
+     * Returns the current collision rectangle.
+     * @returns Object with position, width and height of the current enemy position.
+     */
     getCollisionRect() {
         return {
             position: this.position,
@@ -121,14 +130,13 @@ export class Enemy extends DynamicObject {
      * Updates the character.
      * @param {Object} collisionGroup Object of the sprites the player can collide with.
      */
-    update(collisionGroup, playerAttackRect) {
+    update(collisionGroup) {
         this.move();
-        this.updateRayPos();
         this.checkCollision(collisionGroup.terrainSprites, 'horizontal');
         super.addGravity();
         this.checkCollision(collisionGroup.terrainSprites, 'vertical');
-        this.rayCheck(collisionGroup.terrainSprites);
-        // this.checkPlayerAttackCollision(playerAttackRect);
+        this.updateRayPos();
+        this.checkRays(collisionGroup.terrainSprites);
         this.setAnimation();
     }
 
@@ -137,11 +145,5 @@ export class Enemy extends DynamicObject {
      */
     render() {
         this.renderAnimation(this.currentAnimation, enemyData, true);
-
-
-
-        // this.drawRay(this.leftRayPos);
-        // this.drawRay(this.rightRayPos);
-        // this.drawRect();
     }
 }
