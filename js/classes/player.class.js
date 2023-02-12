@@ -125,7 +125,7 @@ export class Player extends DynamicObject {
 
         if (!this.isLastInputRight) { adjustHorizontal = -30 }
         if (this.isAttacking) {
-            return this.getUpdatedAttackRect();
+            return this.getUpdatedAttackRect(adjustHorizontal);
         }
         return this.getDefaultAttackRect();
     }
