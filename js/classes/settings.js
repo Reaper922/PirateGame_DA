@@ -74,51 +74,63 @@ export const playerData = {
     animations: {
         idle_left: {
             path: './assets/sprites/player/idle_left',
-            numSprites: 5
+            numSprites: 5,
+            start: 0
         },
         idle_right: {
             path: './assets/sprites/player/idle_right',
-            numSprites: 5
+            numSprites: 5,
+            start: 0
         },
         run_left: {
             path: './assets/sprites/player/run_left',
-            numSprites: 6
+            numSprites: 6,
+            start: 0
         },
         run_right: {
             path: './assets/sprites/player/run_right',
-            numSprites: 6
+            numSprites: 6,
+            start: 0
         },
         jump_left: {
             path: './assets/sprites/player/jump_left',
-            numSprites: 1
+            numSprites: 1,
+            start: 0
         },
         jump_right: {
             path: './assets/sprites/player/jump_right',
-            numSprites: 1
+            numSprites: 1,
+            start: 0
         },
         fall_left: {
             path: './assets/sprites/player/fall_left',
-            numSprites: 1
+            numSprites: 1,
+            start: 0
         },
         fall_right: {
             path: './assets/sprites/player/fall_right',
-            numSprites: 1
+            numSprites: 1,
+            start: 0
         },
         attack_right: {
             path: './assets/sprites/player/attack_right',
-            numSprites: 3
+            numSprites: 3,
+            start: 0
         },
         attack_left: {
             path: './assets/sprites/player/attack_left',
-            numSprites: 3
+            numSprites: 3,
+            start: 0
         },
         hit_right: {
             path: './assets/sprites/player/hit_right',
-            numSprites: 3
+            numSprites: 3,
+            start: 0
         },
         hit_left: {
             path: './assets/sprites/player/hit_left',
-            numSprites: 3
+            numSprites: 3,
+            start: 0
         }
     }
 }
@@ -136,15 +148,18 @@ export const enemyData = {
     animations: {
         idle: {
             path: './assets/sprites/enemies/tooth/idle',
-            numSprites: 8
+            numSprites: 8,
+            start: 0
         },
         run_left: {
             path: './assets/sprites/enemies/tooth/run_left',
-            numSprites: 6
+            numSprites: 6,
+            start: 0
         },
         run_right: {
             path: './assets/sprites/enemies/tooth/run_right',
-            numSprites: 6
+            numSprites: 6,
+            start: 0
         }
     }
 }
