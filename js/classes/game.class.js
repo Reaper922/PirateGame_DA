@@ -147,7 +147,7 @@ export class Game {
         const rightBtn = document.getElementById('right');
         const jumpBtn = document.getElementById('jump');
         const attackBtn = document.getElementById('attack');
-        const isMobileDevice = navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i);
+        const isMobileDevice = navigator.userAgent.match(/Android|webOS|iPhone|iPod|iPad|Blackberry/i);
 
         leftBtn.style.display = isMobileDevice ? 'inline' : 'none';
         rightBtn.style.display = isMobileDevice ? 'inline' : 'none';
@@ -160,7 +160,7 @@ export class Game {
      */
     hideCursorOnMobile() {
         const cursor = document.getElementById('cursor');
-        const isMobileDevice = navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i);
+        const isMobileDevice = navigator.userAgent.match(/Android|webOS|iPhone|iPod|iPad|Blackberry/i);
 
         cursor.style.display = isMobileDevice ? 'none' : 'block';
     }
