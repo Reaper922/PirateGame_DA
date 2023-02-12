@@ -1,5 +1,6 @@
 import { Sprite } from "./sprite.class.js";
 
+
 /**
  * Root object of all game objects.
  */
@@ -21,13 +22,16 @@ export class StaticObject {
     }
 
     /**
-     * Loads all character animations from the playerData object.
+     * Creates the layer based on the animationData array. -> For animated layers.
+     * @param {Object} animationData Object with animation information.
      */
     loadAnimations(animationData) {
         for (const animation in animationData) {
             this.animations[animation] = [];
+            const animationStart = animationData[animation].start;
+            const animationIndex = animationData[animation].numSprites + animationStart;
 
-            for (let i = 0; i < animationData[animation].numSprites; i++) {
+            for (let i = animationStart; i < animationIndex; i++) {
                 const spriteImage = new Sprite(`${animationData[animation].path}/${i}.png`).image;
                 this.animations[animation].push(spriteImage);
             }
@@ -47,8 +51,10 @@ export class StaticObject {
     /**
      * Renders the sprite of the currentAnimation based on the animationFrame.
      * @param {String} name Name of the animation.
+     * @param {Object} data Data of the element to be rendered.
+     * @param {Boolean} isEnemy Flag if the animation belongs to an enemy.
      */
-    renderAnimation(name, data, isEnemy =false) {
+    renderAnimation(name, data, isEnemy = false) {
         const animationArr = this.animations[name];
         const spriteId = this.animationFrame % animationArr.length;
         let spriteCorrectionX = data.spriteCorrection.x;
@@ -70,27 +76,5 @@ export class StaticObject {
         for (let i = 0; i < this.sprites.length; i++) {
             this.ctx.drawImage(this.sprites[i].image, this.sprites[i].position.x, this.sprites[i].position.y);
         }
-    }
-
-    /**
-     * Debugging function that renders a red outline of the objects boundary.
-     */
-    drawRect() {
-        this.ctx.beginPath();
-        this.ctx.lineWidth = "2";
-        this.ctx.strokeStyle = 'red';
-        this.ctx.rect(this.position.x, this.position.y, this.width, this.height);
-        this.ctx.stroke();
-    }
-
-    /**
-     * Debugging function that renders a red ray.
-     */
-    drawRay(point) {
-        this.ctx.beginPath();
-        this.ctx.lineWidth = "5";
-        this.ctx.strokeStyle = 'red';
-        this.ctx.rect(point.x, point.y, 1, 1);
-        this.ctx.stroke();
     }
 }
