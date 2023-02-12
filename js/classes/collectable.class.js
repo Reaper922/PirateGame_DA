@@ -2,6 +2,7 @@ import { collectableData, levelSize, tileSize } from './settings.js';
 import { Layer } from "./layer.class.js";
 import { Sprite } from './sprite.class.js';
 
+
 /**
  * Class that represents a collectable i.e. a coin.
  */
@@ -52,23 +53,6 @@ export class Collectable extends Layer {
         sprite.position.x = col * tileWidth;
         sprite.position.y = (row * tileHeight) + collectableData.spriteCorrection.y;
         this.sprites.push(sprite)
-    }
-
-    /**
-     * Creates the layer based on the animationData array.
-     * @param {Object} animationData Object with animation information.
-     */
-    loadAnimations(animationData) {
-        for (const animation in animationData) {
-            this.animations[animation] = [];
-            const animationStart = animationData[animation].start;
-            const animationIndex = animationData[animation].numSprites + animationStart;
-
-            for (let i = animationStart; i < animationIndex; i++) {
-                const sprite = new Sprite(`${animationData[animation].path}/${i}.png`).image;
-                this.animations[animation].push(sprite);
-            }
-        }
     }
 
     /**
