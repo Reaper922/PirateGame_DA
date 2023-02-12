@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My game description">
+
     <title>Captain ClownNose</title>
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
@@ -17,24 +19,24 @@
             <!-- Canvas -->
             <canvas id="canvas"></canvas>
             <!-- Background -->
-            <img src="./assets/sprites/menu/menu.png" id="background" draggable="false">
-            <img src="./assets/sprites/menu/title.png" id="title" draggable="false">
+            <img src="./assets/sprites/menu/menu.png" class="no-select" id="background" draggable="false">
+            <img src="./assets/sprites/menu/title.png" class="no-select" id="title" draggable="false">
             <!-- Buttons -->
-            <img src="./assets/sprites/buttons/play.png" id="play" draggable="false">
-            <img src="./assets/sprites/buttons/fullscreen.png" id="fullscreen" draggable="false">
-            <img src="./assets/sprites/buttons/mute.png" id="mute" draggable="false">
+            <img src="./assets/sprites/buttons/play.png" class="no-select" id="play" draggable="false">
+            <img src="./assets/sprites/buttons/fullscreen.png" class="no-select" id="fullscreen" draggable="false">
+            <img src="./assets/sprites/buttons/mute.png" class="no-select" id="mute" draggable="false">
             <!-- Controls -->
-            <img src="./assets/sprites/menu/controls.png" id="controls" draggable="false">
+            <img src="./assets/sprites/menu/controls.png" class="no-select" id="controls" draggable="false">
             <!-- Touch Control -->
-            <img src="./assets/sprites/buttons/left.png" id="left" draggable="false">
-            <img src="./assets/sprites/buttons/right.png" id="right" draggable="false">
-            <img src="./assets/sprites/buttons/a.png" id="jump" draggable="false">
-            <img src="./assets/sprites/buttons/b.png" id="attack" draggable="false">
+            <img src="./assets/sprites/buttons/left.png" class="no-select" id="left" draggable="false">
+            <img src="./assets/sprites/buttons/right.png" class="no-select" id="right" draggable="false">
+            <img src="./assets/sprites/buttons/a.png" class="no-select" id="jump" draggable="false">
+            <img src="./assets/sprites/buttons/b.png" class="no-select" id="attack" draggable="false">
             <!-- Loading Screen -->
             <div id="loading-screen">
-                <img src="./assets/sprites/loading_screen/boat.png" id="boat" draggable="false">
-                <img src="./assets/sprites/terrain/clouds/1.png" id="cloud1" draggable="false">
-                <img src="./assets/sprites/terrain/clouds/2.png" id="cloud2" draggable="false">
+                <img src="./assets/sprites/loading_screen/boat.png" class="no-select" id="boat" draggable="false">
+                <img src="./assets/sprites/terrain/clouds/1.png" class="no-select" id="cloud1" draggable="false">
+                <img src="./assets/sprites/terrain/clouds/2.png" class="no-select" id="cloud2" draggable="false">
                 <div id="water"></div>
                 <div id="loading-bar">
                     <div id="progress"></div>
@@ -43,9 +45,9 @@
             <!-- End Screen -->
             <div id="end-screen">
                 <div>
-                    <img src="./assets/sprites/end_screen/win.png" id="win" draggable="false">
-                    <img src="./assets/sprites/end_screen/lose.png" id="lose" draggable="false">
-                    <img src="./assets/sprites/buttons/play_again.png" id="play-again" draggable="false">
+                    <img src="./assets/sprites/end_screen/win.png" class="no-select" id="win" draggable="false">
+                    <img src="./assets/sprites/end_screen/lose.png" class="no-select" id="lose" draggable="false">
+                    <img src="./assets/sprites/buttons/play_again.png" class="no-select" id="play-again" draggable="false">
                 </div>
             </div>
             <!-- Cursor -->

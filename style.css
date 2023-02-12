@@ -37,6 +37,13 @@ body {
     position: relative;
 }
 
+#no-select {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+}
+
 /* Canvas */
 #canvas {
     display: block;
@@ -52,7 +59,6 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    user-select: none;
 }
 
 #title {
@@ -70,7 +76,6 @@ body {
     top: calc(50% - 7.5%);
     left: calc(50% - 10%);
     width: 20%;
-    user-select: none;
 }
 
 #play-again {
@@ -78,7 +83,6 @@ body {
     top: calc(65% - 7.5%);
     left: calc(50% - 15%);
     width: 30%;
-    user-select: none;
 }
 
 #fullscreen {
@@ -86,7 +90,6 @@ body {
     top: 5%;
     right: 4%;
     width: 4%;
-    user-select: none;
 }
 
 #mute {
@@ -94,7 +97,6 @@ body {
     top: 5%;
     right: 10%;
     width: 4%;
-    user-select: none;
 }
 
 #play:hover,
@@ -112,7 +114,6 @@ body {
     bottom: 5%;
     left: 5%;
     width: 25%;
-    user-select: none;
 }
 
 /* Touch Control */
@@ -122,7 +123,6 @@ body {
     left: 15%;
     display: none;
     width: 8%;
-    user-select: none;
 }
 
 #right {
@@ -131,7 +131,6 @@ body {
     left: 30%;
     display: none;
     width: 8%;
-    user-select: none;
 }
 
 #jump {
@@ -140,7 +139,6 @@ body {
     right: 15%;
     display: none;
     width: 8%;
-    user-select: none;
 }
 
 #attack {
@@ -149,7 +147,6 @@ body {
     right: 30%;
     display: none;
     width: 8%;
-    user-select: none;
 }
 
 /* Loading Screen */
@@ -189,7 +186,6 @@ body {
     bottom: 10%;
     left: 2%;
     width: 18%;
-    user-select: none;
 }
 
 #water {
@@ -202,7 +198,6 @@ body {
     background-repeat: repeat-x;
     background-position: right bottom;
     background-size: 20% 20%;
-    user-select: none;
 }
 
 #cloud1 {
@@ -210,7 +205,6 @@ body {
     top: 25%;
     left: 65%;
     width: 30%;
-    user-select: none;
 }
 
 #cloud2 {
@@ -218,29 +212,17 @@ body {
     top: 10%;
     left: 10%;
     width: 30%;
-    user-select: none;
 }
 
 /* End Screen */
 #end-screen {
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
-    display: none;
     width: 100%;
     height: 100%;
     background-color: rgba(173, 216, 230, 0.8);
-}
-
-#end-message {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    margin: 0;
-    font-family: 'MiniPixel-7';
-    font-size: 120px;
-    user-select: none;
-    transform: translate(-50%, -50%);
 }
 
 #win, #lose {
@@ -249,7 +231,6 @@ body {
     top: 40%;
     left: 50%;
     width: 40%;
-    user-select: none;
     transform: translate(-50%, -50%);
 }
 
