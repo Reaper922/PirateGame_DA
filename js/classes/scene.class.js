@@ -115,14 +115,34 @@ export class Scene {
      * Checks the collision between the player and the enemies.
      */
     checkEnemyCollision() {
-        if (this.player && this.enemies) {
-            const playerCollisionRect = this.player.getCollisionRect();
-            
-            for (const enemy of this.enemies.enemies) {
-                const enemyCollisionRect = enemy.getCollisionRect();
-                const isColliding = this.checkSpriteCollision(playerCollisionRect, enemyCollisionRect);
+        const playerCollisionRect = this.player.getCollisionRect();
+        
+        for (const enemy of this.enemies.enemies) {
+            const enemyCollisionRect = enemy.getCollisionRect();
+            const isColliding = this.checkSpriteCollision(playerCollisionRect, enemyCollisionRect);
 
-                if (isColliding) { this.player.getHurt() }
+            if (isColliding) { this.player.getHurt() }
+        }
+    }
+
+    /**
+     * Checks if an enemy gets hit when the player is attacking.
+     */
+    checkPlayerAttackCollision() {
+        if (this.player.isAttacking) {
+            for (let enemy of this.enemies.enemies) {
+                const attackRect = this.player.getAttackRect();
+                const collision = {
+                    top: enemy.position.y < attackRect.position.y + attackRect.size.height,
+                    bottom: enemy.position.y + enemy.height > attackRect.position.y,
+                    left: enemy.position.x < attackRect.position.x + attackRect.size.width,
+                    right: enemy.position.x + enemy.width > attackRect.position.x
+                }
+        
+                if (collision.top && collision.bottom && collision.left && collision.right) {
+                    enemy.enemyHitAudio.play();
+                    this.enemies.enemies.splice(this.enemies.enemies.indexOf(enemy), 1);
+                }
             }
         }
     }
@@ -137,6 +157,7 @@ export class Scene {
             if (this.enemies) { this.enemies.update(this.collisionGroups) }
             if (this.player) { this.player.update(this.collisionGroups) }
             if (this.player && this.enemies) { this.checkEnemyCollision() }
+            if (this.player && this.enemies) { this.checkPlayerAttackCollision() }
             if (!this.player.isAlive()) { this.gameState = 'lose' }
             if (this.player.allCoinsCollected()) { this.gameState = 'win' }
         }
