@@ -15,7 +15,7 @@ export class Layer extends StaticObject {
      * Creates the layer based on the tiled array. -> For static layers.
      * @param {String} layer Name of the layer.
      */
-    createLayer(layer) {
+    createLayer(layer, layerData = null) {
         const dataArray = this.layerData[layer].data;
         const levelWidth = levelSize.width;
         let row = 0;
@@ -25,7 +25,7 @@ export class Layer extends StaticObject {
             const dataId = dataArray[i];
 
             if (dataId != 0) {
-                this.createSprite(dataId, layer, col, row);
+                this.createSprite(dataId, layer, col, row, layerData);
             }
 
             if (col === (levelWidth - 1)) { row += 1 }
@@ -38,15 +38,18 @@ export class Layer extends StaticObject {
      * @param {String} layer Name of the layer.
      * @param {Number} col Colum of the sprite.
      * @param {Number} row Row of the sprite.
+     * @param {Object} layerData Data of the layer.
      */
-    createSprite(dataId, layer, col, row) {
+    createSprite(dataId, layer, col, row, layerData) {
         const tileWidth = tileSize.width;
         const tileHeight = tileSize.height;
         const id = dataId + this.layerData[layer].spriteOffset;
         const sprite = new Sprite(`${this.layerData[layer].path}/${id}.png`);
+        const spriteCorrectionX = layerData ? layerData.spriteCorrection.x : 0;
+        const spriteCorrectionY = layerData ? layerData.spriteCorrection.y : 0;
 
-        sprite.position.x = col * tileWidth;
-        sprite.position.y = row * tileHeight;
+        sprite.position.x = col * tileWidth + spriteCorrectionX;
+        sprite.position.y = row * tileHeight + spriteCorrectionY;
         this.sprites.push(sprite);
     }
 
