@@ -1,10 +1,10 @@
 # PirateGame_DA
 
 Controls:\
-  W: Jump\
-  A: Move left\
-  D: Move right\
-  Space: Attack\
+*W: Jump\
+*A: Move left\
+*D: Move right\
+*Space: Attack
 
 ![grafik](https://user-images.githubusercontent.com/71259454/218500438-db272c7f-d756-4a06-b9dc-bdb67640e76c.png)
 
