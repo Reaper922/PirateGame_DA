@@ -31,6 +31,9 @@ export class TreesFG extends Layer {
             case 16:
                 this.renderSprites('palmLeft', col, row, treeFgData, this);
                 break;
+            case 20:
+                this.renderSprites('palmRight', col, row, treeFgData, this);
+                break;
         }
     }
 
@@ -41,6 +44,7 @@ export class TreesFG extends Layer {
      */
     setSpriteOffset(animation) {
         if (animation === 'palmSmall') { return { x: 0, y: (30 - tileSize.height) } }
+        if (animation === 'palmBig') { return { x: 0, y: (15 - tileSize.height) } }
         if (animation === 'palmLeft') { return { x: 0, y: (20 - tileSize.height) } }
         return { x: 0, y: -tileSize.height }
     }

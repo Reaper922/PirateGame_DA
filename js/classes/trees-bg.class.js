@@ -22,11 +22,17 @@ export class TreesBG extends Layer {
      */
     selectAnimation(dataId, col, row) {
         switch (dataId) {
-            case 28:
+            case 24:
                 this.renderSprites('palmBig', col, row, treeBgData, this);
+                break;
+            case 28:
+                this.renderSprites('palmSmall', col, row, treeBgData, this);
                 break;
             case 35:
                 this.renderSprites('palmLeft', col, row, treeBgData, this);
+                break;
+            case 36:
+                this.renderSprites('palmRight', col, row, treeBgData, this);
                 break;
         }
     }
@@ -38,6 +44,8 @@ export class TreesBG extends Layer {
      */
     setSpriteOffset(animation) {
         if (animation === 'palmLeft') { return { x: 0, y: (20 - tileSize.height) } }
+        if (animation === 'palmRight') { return { x: -10, y: (20 - tileSize.height) } }
+        if (animation === 'palmSmall') { return { x: 0, y: (10 - tileSize.height) } }
         return { x: 0, y: -tileSize.height }
     }
 
