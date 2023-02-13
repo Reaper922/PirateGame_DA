@@ -114,7 +114,8 @@ function containerEventListener() {
 function toggleFullScreen() {
     if (!document.fullscreenElement) {
         container.requestFullscreen();
-    } else if (document.exitFullscreen) {
+        setTimeout(() => adjustCanvasAspectRatio(), 100)
+    } else if (document.fullscreenElement) {
         document.exitFullscreen();
     }
 }
@@ -133,13 +134,35 @@ function toggleMute() {
     }
 }
 
+/**
+ * Function to change the size of the ratio container in fullscreen mode to keep the aspect ratio.
+ */
+function adjustCanvasAspectRatio() {
+    const aspectRatioCanvas = gameWindow.width / gameWindow.height;
+    const aspectRatioInner = innerWidth / innerHeight;
+
+    if (document.fullscreenElement && aspectRatioInner < aspectRatioCanvas) {
+        const calcHeight = (innerWidth / gameWindow.width) * gameWindow.height;
+
+        ratioContainer.style.width = `${innerWidth}px`;
+        ratioContainer.style.height = `${calcHeight}px`;
+    }
+
+    if (document.fullscreenElement && aspectRatioInner > aspectRatioCanvas) {
+        const calcWidth = (innerHeight / gameWindow.height) * gameWindow.width;
+
+        ratioContainer.style.width = `${calcWidth}px`;
+        ratioContainer.style.height = `${innerHeight}px`;
+    }
+}
+
 
 /**
  * Resets the styling of the ratio container after exiting fullscreen.
  */
 function resetRatioContainer() {
-    ratioContainer.style.width = '100%';
-    ratioContainer.style.height = '100%';
+    ratioContainer.style.width = 'auto';
+    ratioContainer.style.height = 'auto';
 }
 
 
@@ -147,7 +170,7 @@ function resetRatioContainer() {
  * Hides the custom mouse cursor on mobile devices.
  */
 function hideCursorOnMobile() {
-    if (navigator.userAgent.match(/Android|webOS|iPhone|iPod|Blackberry/i)) {
+    if (navigator.userAgent.match(/Android|webOS|iPhone|iPod|iPad|Blackberry/i)) {
         cursor.style.display = 'none';
     } else {
         cursor.style.display = 'inline';
@@ -173,25 +196,10 @@ oncontextmenu = (event) => event.preventDefault();
 
 
 /**
- * Event listener to change the size of the ratio container in fullscreen to keep the aspect ratio.
+ * Event listener that gets triggert on window resize and adjusts the canvas aspect ratio on fullscreen mode.
  */
 onresize = () => {
-    const aspectRatioCanvas = gameWindow.width / gameWindow.height;
-    const aspectRatioInner = innerWidth / innerHeight;
-
-    if (document.fullscreenElement && aspectRatioInner < aspectRatioCanvas) {
-        const calcHeight = (innerWidth / gameWindow.width) * gameWindow.height;
-
-        ratioContainer.style.width = `${innerWidth}px`;
-        ratioContainer.style.height = `${calcHeight}px`;
-    }
-
-    if (document.fullscreenElement && aspectRatioInner > aspectRatioCanvas) {
-        const calcWidth = (innerHeight / gameWindow.height) * gameWindow.width;
-
-        ratioContainer.style.width = `${calcWidth}px`;
-        ratioContainer.style.height = `${innerHeight}px`;
-    }
+    adjustCanvasAspectRatio();
 }
 
 
